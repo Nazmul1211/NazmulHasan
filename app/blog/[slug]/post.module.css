@@ -1,0 +1,199 @@
+.article {
+  padding-top: var(--nav-height);
+  padding-bottom: 6rem;
+  min-height: 100vh;
+}
+
+.hero {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(99, 102, 241, 0.05), transparent);
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.backLink:hover {
+  transform: translateX(-5px);
+}
+
+.meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--foreground-muted);
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  background: linear-gradient(to right, var(--foreground), var(--foreground-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tag {
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 2rem;
+  color: var(--primary);
+}
+
+.imageContainer {
+  max-width: 1000px;
+  margin: 2rem auto 4rem;
+  padding: 0 1.5rem;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--foreground-dim);
+}
+
+/* Typography for content */
+.content h2, 
+.content h3 {
+  color: var(--foreground);
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.content h2 { font-size: 1.8rem; }
+.content h3 { font-size: 1.5rem; }
+
+.content p {
+  margin-bottom: 1.5rem;
+}
+
+.content ul, 
+.content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.content li {
+  margin-bottom: 0.75rem;
+}
+
+.content strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.content pre {
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--glass-border);
+}
+
+.content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.author {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.authorImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--primary);
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.writtenBy {
+  font-size: 0.8rem;
+  color: var(--foreground-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.authorName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.authorBio {
+  font-size: 0.9rem;
+  color: var(--foreground-muted);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  .imageWrapper {
+    aspect-ratio: 4/3;
+  }
+}
+ 
+/* Light mode adjustments */
+:global([data-theme="light"]) .content pre {
+  background: #f1f5f9;
+  border-color: rgba(0,0,0,0.1);
+}
+
+:global([data-theme="light"]) .hero {
+  background: linear-gradient(to bottom, rgba(79, 70, 229, 0.05), transparent);
+}
