@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import styles from '../../admin.module.css';
 import { defaultPortfolioData, Project } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
+import { FolderGit, Save, Download, RotateCcw, Star, Edit, Check, X } from 'lucide-react';
 
 function loadData(): Project[] {
     if (typeof window === 'undefined') return defaultPortfolioData.projects;
@@ -66,7 +67,9 @@ export default function ProjectsEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>📁 Projects</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <FolderGit size={24} style={{ color: 'var(--primary)' }} /> Projects
+                </h1>
                 <p className={styles.dashSubtitle}>Edit project details, links, and featured status. Click Edit to open the full editor for a project.</p>
             </div>
 
@@ -74,8 +77,9 @@ export default function ProjectsEditorPage() {
             {projects.map((project, i) => (
                 <div key={project.slug} className={styles.listCard}>
                     <div className={styles.listCardContent}>
-                        <div className={styles.listCardTitle}>
-                            {project.featured ? '⭐ ' : ''}{project.title}
+                        <div className={styles.listCardTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            {project.featured && <Star size={16} fill="var(--primary)" color="var(--primary)" />}
+                            {project.title}
                         </div>
                         <div className={styles.listCardSub}>
                             {project.techStack.slice(0, 3).join(' · ')} {project.techStack.length > 3 ? `+${project.techStack.length - 3} more` : ''}
@@ -83,10 +87,10 @@ export default function ProjectsEditorPage() {
                     </div>
                     <div className={styles.listCardActions}>
                         <button className={styles.iconBtn} onClick={() => toggleFeatured(i)} title={project.featured ? 'Unfeature' : 'Feature'}>
-                            {project.featured ? '★' : '☆'}
+                            <Star size={16} fill={project.featured ? 'var(--primary)' : 'none'} color={project.featured ? 'var(--primary)' : 'currentColor'} />
                         </button>
                         <button className={styles.iconBtn} onClick={() => openEdit(i)} title="Edit">
-                            ✏️
+                            <Edit size={16} />
                         </button>
                     </div>
                 </div>
@@ -136,8 +140,12 @@ export default function ProjectsEditorPage() {
                             <textarea className={styles.fieldTextarea} rows={4} value={editData.futurePlans?.join('\n') ?? ''} onChange={e => setEditData(p => ({...p, futurePlans: e.target.value.split('\n').map(x => x.trim()).filter(Boolean)}))} />
                         </div>
                         <div style={{ display: 'flex', gap: '0.75rem' }}>
-                            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={saveEdit}>✓ Save Project</button>
-                            <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => setEditingIndex(null)}>Cancel</button>
+                            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={saveEdit}>
+                                <Check size={16} /> Save Project
+                            </button>
+                            <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => setEditingIndex(null)}>
+                                <X size={16} /> Cancel
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -145,9 +153,15 @@ export default function ProjectsEditorPage() {
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSaveAll}>💾 Save All Projects</button>
-                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>📥 Export JSON</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setProjects(defaultPortfolioData.projects)}>↺ Reset</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSaveAll}>
+                        <Save size={16} /> Save All Projects
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>
+                        <Download size={16} /> Export JSON
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setProjects(defaultPortfolioData.projects)}>
+                        <RotateCcw size={16} /> Reset
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
             </div>

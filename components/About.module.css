@@ -7,19 +7,38 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.leadParagraph {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--foreground);
 }
 
 .paragraph {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--foreground-muted);
-    line-height: 1.85;
-    text-align: center;
+    line-height: 1.8;
 }
 
 :global(.highlight) {
-    color: var(--primary);
-    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .aboutText {
+        text-align: center;
+    }
 }
 
 /* Stats Grid */
@@ -93,15 +112,12 @@
 }
 
 .hobbiesGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
-}
-
-@media (min-width: 640px) {
-    .hobbiesGrid { grid-template-columns: repeat(6, 1fr); }
 }
 
 .hobbyCard {
@@ -109,12 +125,15 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem 0.75rem;
+    padding: 1.1rem 0.75rem;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     transition: all 0.3s ease;
     cursor: default;
+    min-width: 95px;
+    flex: 1 1 95px;
+    max-width: 110px;
 }
 
 .hobbyCard:hover {

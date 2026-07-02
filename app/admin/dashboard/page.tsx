@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from '../admin.module.css';
 import { adminSections } from '@/lib/adminConfig';
 import { defaultPortfolioData } from '@/data/portfolioData';
+import SectionIcon from '@/components/admin/SectionIcon';
 
 export default function DashboardOverviewPage() {
     const stats = [
@@ -51,7 +52,9 @@ export default function DashboardOverviewPage() {
             <div className={styles.overviewGrid}>
                 {adminSections.map((section) => (
                     <Link key={section.key} href={`/admin/dashboard/${section.key}`} className={styles.overviewCard}>
-                        <div className={styles.overviewCardIcon}>{section.icon}</div>
+                        <div className={styles.overviewCardIcon}>
+                            <SectionIcon name={section.icon} size={32} />
+                        </div>
                         <div className={styles.overviewCardLabel}>{section.label}</div>
                         <div className={styles.overviewCardDesc}>{section.description}</div>
                         <div className={styles.overviewCardArrow}>Edit →</div>

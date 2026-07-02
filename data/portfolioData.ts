@@ -118,7 +118,6 @@ export const defaultPortfolioData: PortfolioData = {
       { emoji: '📚', label: 'Reading' },
       { emoji: '✈️', label: 'Traveling' },
       { emoji: '🎮', label: 'Gaming' },
-      { emoji: '🎵', label: 'Music' },
       { emoji: '🌐', label: 'Open Source' },
     ],
   },
@@ -142,6 +141,7 @@ export const defaultPortfolioData: PortfolioData = {
       gradient: 'linear-gradient(90deg, #ec4899, #f97316)',
       skills: [
         { name: 'PostgreSQL', proficiency: 78 },
+        { name: 'Prisma', proficiency: 82 },
         { name: 'Firebase', proficiency: 85 },
         { name: 'Supabase', proficiency: 72 },
         { name: 'Redis', proficiency: 70 },

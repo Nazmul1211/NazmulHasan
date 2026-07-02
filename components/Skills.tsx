@@ -35,10 +35,10 @@ export default function Skills() {
                                         <div
                                             className={styles.barFill}
                                             style={{
-                                                width: `${skill.proficiency}%`,
+                                                '--target': `${skill.proficiency}%`,
                                                 background: category.gradient,
                                                 animationDelay: `${i * 80}ms`,
-                                            }}
+                                            } as React.CSSProperties}
                                         />
                                     </div>
                                 </div>

@@ -5,6 +5,9 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from '../admin.module.css';
 import { ADMIN_SESSION_KEY, adminSections } from '@/lib/adminConfig';
+import ThemeToggle from '@/components/ThemeToggle';
+import SectionIcon from '@/components/admin/SectionIcon';
+import { ExternalLink, LogOut, LayoutDashboard } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -41,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         href="/admin/dashboard"
                         className={`${styles.sidebarLink} ${pathname === '/admin/dashboard' ? styles.sidebarLinkActive : ''}`}
                     >
-                        <span className={styles.sidebarIcon}>🏠</span>
+                        <LayoutDashboard size={18} />
                         Overview
                     </Link>
 
@@ -53,23 +56,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             href={`/admin/dashboard/${section.key}`}
                             className={`${styles.sidebarLink} ${pathname === `/admin/dashboard/${section.key}` ? styles.sidebarLinkActive : ''}`}
                         >
-                            <span className={styles.sidebarIcon}>{section.icon}</span>
+                            <SectionIcon name={section.icon} size={18} />
                             {section.label}
                         </Link>
                     ))}
                 </nav>
 
                 <div className={styles.sidebarFooter}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.4rem 0.75rem', marginBottom: '0.25rem' }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)', fontWeight: 600 }}>Theme Mode</span>
+                        <ThemeToggle />
+                    </div>
+                    
                     <Link href="/" target="_blank" className={styles.sidebarFooterLink}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/>
-                        </svg>
+                        <ExternalLink size={16} />
                         View Portfolio
                     </Link>
                     <button onClick={handleLogout} className={styles.sidebarFooterLink} style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', fontFamily: 'inherit', cursor: 'pointer' }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
-                        </svg>
+                        <LogOut size={16} />
                         Logout
                     </button>
                 </div>

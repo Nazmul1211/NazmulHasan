@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, HeroData } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { Sparkles, Save, Download, RotateCcw } from 'lucide-react';
+
 function loadData(): HeroData {
     if (typeof window === 'undefined') return defaultPortfolioData.hero;
     try {
@@ -57,7 +59,9 @@ export default function HeroEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>🏠 Hero Section</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <Sparkles size={24} style={{ color: 'var(--primary)' }} /> Hero Section
+                </h1>
                 <p className={styles.dashSubtitle}>Edit your name, role titles, description, and links.</p>
             </div>
 
@@ -101,9 +105,15 @@ export default function HeroEditorPage() {
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
-                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>📥 Export JSON</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={handleReset}>↺ Reset to Default</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Changes
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>
+                        <Download size={16} /> Export JSON
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={handleReset}>
+                        <RotateCcw size={16} /> Reset to Default
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved to localStorage!</span>}
             </div>

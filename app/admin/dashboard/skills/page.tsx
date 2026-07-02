@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, SkillCategory } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { Wrench, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
+
 function loadData(): SkillCategory[] {
     if (typeof window === 'undefined') return defaultPortfolioData.skills;
     try {
@@ -71,7 +73,9 @@ export default function SkillsEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>🛠 Skills</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <Wrench size={24} style={{ color: 'var(--primary)' }} /> Skills
+                </h1>
                 <p className={styles.dashSubtitle}>Adjust skill names and proficiency levels. Drag sliders to update percentages.</p>
             </div>
 
@@ -102,7 +106,9 @@ export default function SkillsEditorPage() {
                                     onChange={e => updateSkillName(activeCat, si, e.target.value)}
                                     style={{ maxWidth: '220px' }}
                                 />
-                                <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeSkill(activeCat, si)} title="Remove">✕</button>
+                                <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeSkill(activeCat, si)} title="Remove">
+                                    <Trash2 size={16} />
+                                </button>
                             </div>
                             <div className={styles.rangeRow}>
                                 <input
@@ -119,15 +125,19 @@ export default function SkillsEditorPage() {
                     ))}
 
                     <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => addSkill(activeCat)}>
-                        + Add Skill to {currentCat.title}
+                        <Plus size={16} /> Add Skill to {currentCat.title}
                     </button>
                 </div>
             )}
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Skills</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setSkills(defaultPortfolioData.skills)}>↺ Reset</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Skills
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setSkills(defaultPortfolioData.skills)}>
+                        <RotateCcw size={16} /> Reset
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
             </div>

@@ -64,7 +64,9 @@ export default function Navbar() {
 
             <div className={`container ${styles.navContext}`}>
                 <Link href="/" className={styles.logo}>
-                    <span className="text-gradient">NH</span>
+                    <span className={styles.logoBracket}>&lt;</span>
+                    <span className="text-gradient">nh.dev</span>
+                    <span className={styles.logoBracket}>&nbsp;/&gt;</span>
                 </Link>
 
                 {/* Desktop Links */}

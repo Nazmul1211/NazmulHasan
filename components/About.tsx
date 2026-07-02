@@ -66,8 +66,8 @@ export default function About() {
             <div className={styles.container}>
                 {/* About Text */}
                 <div className={styles.aboutText}>
-                    <p className={styles.paragraph}>
-                        I am a passionate <span className={styles.highlight}>MERN Stack Developer</span> with a strong foundation in
+                    <p className={styles.leadParagraph}>
+                        I am a passionate <span className="highlight">MERN Stack Developer</span> with a strong foundation in
                         computer science principles and modern web application development.
                     </p>
                     <p className={styles.paragraph}>
@@ -76,9 +76,9 @@ export default function About() {
                         delight users. My entrepreneurial journey has taught me to balance technical excellence with business impact.
                     </p>
                     <p className={styles.paragraph}>
-                        I&apos;ve built and scaled SaaS products from zero to <span className={styles.highlight}>25,000+ users</span>,
-                        achieved <span className={styles.highlight}>#1 Google rankings</span>, and helped clients
-                        reduce infrastructure costs by up to <span className={styles.highlight}>60%</span>.
+                        I&apos;ve built and scaled SaaS products from zero to <span className="highlight">25,000+ users</span>,
+                        achieved <span className="highlight">#1 Google rankings</span>, and helped clients
+                        reduce infrastructure costs by up to <span className="highlight">60%</span>.
                     </p>
                 </div>
 

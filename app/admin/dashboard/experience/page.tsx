@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, ExperienceItem } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { Briefcase, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
+
 function loadData(): ExperienceItem[] {
     if (typeof window === 'undefined') return defaultPortfolioData.experience;
     try {
@@ -49,7 +51,9 @@ export default function ExperienceEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>💼 Experience</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <Briefcase size={24} style={{ color: 'var(--primary)' }} /> Experience
+                </h1>
                 <p className={styles.dashSubtitle}>Edit your work history, roles, and responsibilities.</p>
             </div>
 
@@ -57,7 +61,9 @@ export default function ExperienceEditorPage() {
                 <div key={i} className={styles.editorCard}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                         <div className={styles.editorSectionLabel} style={{ marginBottom: 0 }}>Experience #{i + 1}</div>
-                        <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeItem(i)}>✕</button>
+                        <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeItem(i)} title="Remove">
+                            <Trash2 size={16} />
+                        </button>
                     </div>
                     <div className={styles.fieldRow}>
                         <div className={styles.field}>
@@ -81,13 +87,17 @@ export default function ExperienceEditorPage() {
             ))}
 
             <button className={`${styles.btn} ${styles.btnOutline}`} onClick={addItem} style={{ marginBottom: '1.5rem' }}>
-                + Add Experience
+                <Plus size={16} /> Add Experience
             </button>
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setItems(defaultPortfolioData.experience)}>↺ Reset</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Changes
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setItems(defaultPortfolioData.experience)}>
+                        <RotateCcw size={16} /> Reset
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
             </div>

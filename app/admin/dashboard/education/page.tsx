@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, EducationItem } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { GraduationCap, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
+
 function loadData(): EducationItem[] {
     if (typeof window === 'undefined') return defaultPortfolioData.education;
     try {
@@ -49,7 +51,9 @@ export default function EducationEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>🎓 Education</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <GraduationCap size={24} style={{ color: 'var(--primary)' }} /> Education
+                </h1>
                 <p className={styles.dashSubtitle}>Edit your educational background, degrees, and institutions.</p>
             </div>
 
@@ -57,7 +61,9 @@ export default function EducationEditorPage() {
                 <div key={i} className={styles.editorCard}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                         <div className={styles.editorSectionLabel} style={{ marginBottom: 0 }}>Education #{i + 1}</div>
-                        <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeItem(i)}>✕</button>
+                        <button className={`${styles.iconBtn} ${styles.iconBtnDanger}`} onClick={() => removeItem(i)} title="Remove">
+                            <Trash2 size={16} />
+                        </button>
                     </div>
                     <div className={styles.fieldRow}>
                         <div className={styles.field}>
@@ -83,13 +89,17 @@ export default function EducationEditorPage() {
             ))}
 
             <button className={`${styles.btn} ${styles.btnOutline}`} onClick={addItem} style={{ marginBottom: '1.5rem' }}>
-                + Add Education Entry
+                <Plus size={16} /> Add Education Entry
             </button>
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setItems(defaultPortfolioData.education)}>↺ Reset</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Changes
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => setItems(defaultPortfolioData.education)}>
+                        <RotateCcw size={16} /> Reset
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
             </div>

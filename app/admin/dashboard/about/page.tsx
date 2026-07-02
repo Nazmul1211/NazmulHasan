@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, AboutData } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { User, Save, RotateCcw } from 'lucide-react';
+
 function loadData(): AboutData {
     if (typeof window === 'undefined') return defaultPortfolioData.about;
     try {
@@ -58,7 +60,9 @@ export default function AboutEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>👤 About Me</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <User size={24} style={{ color: 'var(--primary)' }} /> About Me
+                </h1>
                 <p className={styles.dashSubtitle}>Edit your bio paragraphs, stats, and hobbies.</p>
             </div>
 
@@ -91,12 +95,22 @@ export default function AboutEditorPage() {
                 {data.hobbies.map((hobby, i) => (
                     <div key={i} className={styles.fieldRow} style={{ marginBottom: '0.75rem' }}>
                         <div className={styles.field}>
-                            <label className={styles.fieldLabel}>Emoji #{i + 1}</label>
-                            <input className={styles.fieldInput} value={hobby.emoji} onChange={e => updateHobby(i, 'emoji', e.target.value)} placeholder="⚽" style={{ maxWidth: '80px' }} />
+                            <label className={styles.fieldLabel}>Hobby #{i + 1}</label>
+                            <input className={styles.fieldInput} value={hobby.label} onChange={e => updateHobby(i, 'label', e.target.value)} placeholder="Football" />
                         </div>
                         <div className={styles.field}>
-                            <label className={styles.fieldLabel}>Label #{i + 1}</label>
-                            <input className={styles.fieldInput} value={hobby.label} onChange={e => updateHobby(i, 'label', e.target.value)} placeholder="Football" />
+                            <label className={styles.fieldLabel}>Icon Category</label>
+                            <select 
+                                className={styles.fieldSelect} 
+                                value={hobby.label} 
+                                onChange={e => updateHobby(i, 'label', e.target.value)}
+                            >
+                                <option value="Football">Football / Sports</option>
+                                <option value="Reading">Reading / Books</option>
+                                <option value="Traveling">Traveling / Airplane</option>
+                                <option value="Gaming">Gaming / Controller</option>
+                                <option value="Open Source">Open Source / Code</option>
+                            </select>
                         </div>
                     </div>
                 ))}
@@ -104,8 +118,12 @@ export default function AboutEditorPage() {
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => { setData(defaultPortfolioData.about); setParasText(defaultPortfolioData.about.paragraphs.join('\n\n')); }}>↺ Reset</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Changes
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => { setData(defaultPortfolioData.about); setParasText(defaultPortfolioData.about.paragraphs.join('\n\n')); }}>
+                        <RotateCcw size={16} /> Reset
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
             </div>

@@ -5,6 +5,8 @@ import styles from '../../admin.module.css';
 import { defaultPortfolioData, ContactData } from '@/data/portfolioData';
 import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
+import { Mail, Save, Download, RotateCcw } from 'lucide-react';
+
 function loadData(): ContactData {
     if (typeof window === 'undefined') return defaultPortfolioData.contact;
     try {
@@ -47,7 +49,9 @@ export default function ContactEditorPage() {
     return (
         <div>
             <div className={styles.dashHeader}>
-                <h1 className={styles.dashTitle}>📬 Contact Section</h1>
+                <h1 className={styles.dashTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <Mail size={24} style={{ color: 'var(--primary)' }} /> Contact Section
+                </h1>
                 <p className={styles.dashSubtitle}>Update your email, phone, WhatsApp, and social profile links.</p>
             </div>
 
@@ -87,9 +91,15 @@ export default function ContactEditorPage() {
 
             <div className={styles.actionBar}>
                 <div className={styles.actionGroup}>
-                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
-                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>📥 Export JSON</button>
-                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={handleReset}>↺ Reset to Default</button>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>
+                        <Save size={16} /> Save Changes
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleExport}>
+                        <Download size={16} /> Export JSON
+                    </button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={handleReset}>
+                        <RotateCcw size={16} /> Reset to Default
+                    </button>
                 </div>
                 {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved to localStorage!</span>}
             </div>
