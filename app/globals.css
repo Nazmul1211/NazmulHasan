@@ -49,8 +49,8 @@
   --border: rgba(0, 0, 0, 0.1);
   --glass-border: rgba(0, 0, 0, 0.08);
   --foreground: #0f172a; /* Very dark slate */
-  --foreground-muted: #475569; /* Darker muted */
-  --foreground-dim: #64748b;
+  --foreground-muted: #272e3f; /* Higher contrast Slate 800 */
+  --foreground-dim: #475569; /* Higher contrast Slate 600 */
   --glass-bg: rgba(255, 255, 255, 0.9);
 }
 

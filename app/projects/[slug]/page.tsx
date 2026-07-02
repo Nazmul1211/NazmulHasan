@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { defaultPortfolioData } from '@/data/portfolioData';
+import StickyProjectHeader from '@/components/StickyProjectHeader';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -29,6 +30,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
     return (
         <main className={styles.main}>
+            <StickyProjectHeader title={project.title} liveUrl={project.liveUrl} />
             {/* Background blobs */}
             <div className={styles.bg}>
                 <div className={styles.blob1} />

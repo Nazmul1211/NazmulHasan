@@ -103,21 +103,22 @@
 
 .input,
 .textarea {
-  padding: 0.875rem 1rem;
-  border-radius: calc(var(--radius) / 2);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.6rem;
   background: var(--surface);
   border: 1px solid var(--glass-border);
   color: var(--foreground);
   font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.6);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .textarea {
@@ -127,24 +128,28 @@
 
 .submitButton {
   padding: 1rem 2rem;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
-  border-radius: calc(var(--radius) / 2);
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  border-radius: 0.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   margin-top: 0.5rem;
+  border: none;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.2);
+  letter-spacing: 0.02em;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: var(--primary-hover);
+  opacity: 0.95;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
 }
 
 .submitButton:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Light mode fixes */
