@@ -11,13 +11,13 @@
 }
 
 .paragraph {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--foreground-muted);
-    line-height: 1.8;
+    line-height: 1.85;
     text-align: center;
 }
 
-.highlight {
+:global(.highlight) {
     color: var(--primary);
     font-weight: 600;
 }
@@ -31,9 +31,7 @@
 }
 
 @media (min-width: 640px) {
-    .statsGrid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    .statsGrid { grid-template-columns: repeat(4, 1fr); }
 }
 
 .statCard {
@@ -70,80 +68,91 @@
     margin-top: 0.5rem;
 }
 
-/* Education Section */
-.educationSection {
-    padding-top: 2rem;
+/* Hobbies / Beyond Code */
+.hobbiesSection {
+    padding-top: 3rem;
     border-top: 1px solid var(--glass-border);
-}
-
-.educationTitle {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--foreground);
-    margin-bottom: 2rem;
     text-align: center;
 }
 
-.educationList {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.hobbiesTitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.eduCard {
+.hobbiesSubtext {
+    font-size: 1rem;
+    color: var(--foreground-muted);
+    margin-bottom: 1.75rem;
+}
+
+.hobbiesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .hobbiesGrid { grid-template-columns: repeat(6, 1fr); }
+}
+
+.hobbyCard {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 1.5rem 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0.75rem;
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     transition: all 0.3s ease;
+    cursor: default;
 }
 
-.eduCard:hover {
-    border-color: rgba(99, 102, 241, 0.3);
-    transform: translateX(5px);
+.hobbyCard:hover {
+    transform: translateY(-6px) scale(1.05);
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
 }
 
-.eduInfo {
-    flex: 1;
+.iconContainer {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.06);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    transition: all 0.3s ease;
 }
 
-.schoolName {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--foreground);
-    margin-bottom: 0.25rem;
-}
-
-.degree {
-    font-size: 1rem;
+.hobbyIcon {
     color: var(--primary);
-    font-weight: 600;
-    margin-bottom: 0.25rem;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.details {
-    font-size: 0.9rem;
+.hobbyCard:hover .iconContainer {
+    background: rgba(99, 102, 241, 0.12);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.hobbyCard:hover .hobbyIcon {
+    transform: scale(1.1);
+    color: var(--secondary);
+}
+
+.hobbyLabel {
+    font-size: 0.78rem;
     color: var(--foreground-muted);
-    font-family: var(--font-mono);
-}
-
-.date {
-    font-family: var(--font-mono);
-    color: var(--foreground-muted);
-    font-size: 0.85rem;
-    padding: 0.4rem 0.9rem;
-    background: rgba(99, 102, 241, 0.1);
-    border-radius: 2rem;
-    white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-    .eduCard {
-        flex-direction: column;
-        gap: 1rem;
-    }
+    font-weight: 500;
+    text-align: center;
 }

@@ -1,0 +1,309 @@
+.main {
+    min-height: 100vh;
+    padding-top: calc(var(--nav-height) + 3rem);
+    padding-bottom: 6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.blob1 {
+    position: absolute;
+    top: 10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+    filter: blur(40px);
+}
+
+.blob2 {
+    position: absolute;
+    bottom: 20%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.07) 0%, transparent 70%);
+    filter: blur(40px);
+}
+
+.inner {
+    max-width: 860px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Back Link */
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--foreground-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    transition: all 0.2s ease;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.backLink:hover {
+    color: var(--primary);
+    background: rgba(99, 102, 241, 0.08);
+    gap: 0.6rem;
+}
+
+/* Header */
+.header {
+    margin-bottom: 3rem;
+}
+
+.featuredBadge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.9rem;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+}
+
+.title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: var(--foreground);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+    background: linear-gradient(to right, var(--foreground), var(--foreground-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.description {
+    font-size: 1.15rem;
+    color: var(--foreground-muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 680px;
+}
+
+.ctaRow {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.ctaBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.ctaBtnPrimary {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+}
+
+.ctaBtnPrimary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+}
+
+.ctaBtnOutline {
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    backdrop-filter: blur(8px);
+}
+
+.ctaBtnOutline:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Screenshot */
+.screenshotWrap {
+    position: relative;
+    margin-bottom: 3.5rem;
+    border-radius: calc(var(--radius) + 4px);
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+}
+
+.screenshot {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.screenshotOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top, var(--background), transparent);
+}
+
+/* Sections */
+.section {
+    margin-bottom: 3rem;
+}
+
+.sectionTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.sectionIcon {
+    font-size: 1.2rem;
+}
+
+/* Card */
+.card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+}
+
+.bodyText {
+    font-size: 1.05rem;
+    color: var(--foreground-muted);
+    line-height: 1.85;
+}
+
+/* Tech Stack */
+.stackGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.stackBadge {
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.45rem 1.1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 2rem;
+    color: var(--primary);
+    transition: all 0.2s ease;
+}
+
+.stackBadge:hover {
+    background: rgba(99, 102, 241, 0.18);
+    transform: translateY(-2px);
+}
+
+/* Bullets */
+.bulletList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.bulletItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 1rem;
+    color: var(--foreground-muted);
+    line-height: 1.7;
+}
+
+.bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+}
+
+/* Plans Grid */
+.plansGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.planCard {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.planCard:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.planNumber {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.planText {
+    font-size: 0.95rem;
+    color: var(--foreground-muted);
+    line-height: 1.65;
+}
+
+/* Bottom CTA */
+.bottomCta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+    .screenshot { height: 240px; }
+    .plansGrid { grid-template-columns: 1fr; }
+    .bottomCta { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,114 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import styles from '../../admin.module.css';
+import { defaultPortfolioData, AboutData } from '@/data/portfolioData';
+import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
+
+function loadData(): AboutData {
+    if (typeof window === 'undefined') return defaultPortfolioData.about;
+    try {
+        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+        if (stored) return JSON.parse(stored).about ?? defaultPortfolioData.about;
+    } catch { /* ignore */ }
+    return defaultPortfolioData.about;
+}
+function saveSection(data: unknown) {
+    try {
+        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+        const all = stored ? JSON.parse(stored) : {};
+        all.about = data;
+        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
+    } catch { /* ignore */ }
+}
+
+export default function AboutEditorPage() {
+    const [data, setData] = useState<AboutData>(defaultPortfolioData.about);
+    const [parasText, setParasText] = useState('');
+    const [saved, setSaved] = useState(false);
+
+    useEffect(() => {
+        const d = loadData();
+        setData(d);
+        setParasText(d.paragraphs.join('\n\n'));
+    }, []);
+
+    const handleSave = () => {
+        const updated = {
+            ...data,
+            paragraphs: parasText.split('\n\n').map(p => p.trim()).filter(Boolean),
+        };
+        saveSection(updated);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2500);
+    };
+
+    const updateStat = (i: number, field: 'value' | 'label', val: string) => {
+        const stats = [...data.stats];
+        stats[i] = { ...stats[i], [field]: val };
+        setData(p => ({ ...p, stats }));
+    };
+
+    const updateHobby = (i: number, field: 'emoji' | 'label', val: string) => {
+        const hobbies = [...data.hobbies];
+        hobbies[i] = { ...hobbies[i], [field]: val };
+        setData(p => ({ ...p, hobbies }));
+    };
+
+    return (
+        <div>
+            <div className={styles.dashHeader}>
+                <h1 className={styles.dashTitle}>👤 About Me</h1>
+                <p className={styles.dashSubtitle}>Edit your bio paragraphs, stats, and hobbies.</p>
+            </div>
+
+            <div className={styles.editorCard}>
+                <div className={styles.editorSectionLabel}>Bio Paragraphs</div>
+                <div className={`${styles.field} ${styles.fieldFull}`}>
+                    <label className={styles.fieldLabel}>Paragraphs (separate with blank line)</label>
+                    <textarea className={styles.fieldTextarea} rows={8} value={parasText} onChange={e => setParasText(e.target.value)} />
+                </div>
+            </div>
+
+            <div className={styles.editorCard}>
+                <div className={styles.editorSectionLabel}>Stats</div>
+                {data.stats.map((stat, i) => (
+                    <div key={i} className={styles.fieldRow} style={{ marginBottom: '0.75rem' }}>
+                        <div className={styles.field}>
+                            <label className={styles.fieldLabel}>Value #{i + 1}</label>
+                            <input className={styles.fieldInput} value={stat.value} onChange={e => updateStat(i, 'value', e.target.value)} placeholder="15+" />
+                        </div>
+                        <div className={styles.field}>
+                            <label className={styles.fieldLabel}>Label #{i + 1}</label>
+                            <input className={styles.fieldInput} value={stat.label} onChange={e => updateStat(i, 'label', e.target.value)} placeholder="Production Apps" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className={styles.editorCard}>
+                <div className={styles.editorSectionLabel}>Hobbies / Beyond Code</div>
+                {data.hobbies.map((hobby, i) => (
+                    <div key={i} className={styles.fieldRow} style={{ marginBottom: '0.75rem' }}>
+                        <div className={styles.field}>
+                            <label className={styles.fieldLabel}>Emoji #{i + 1}</label>
+                            <input className={styles.fieldInput} value={hobby.emoji} onChange={e => updateHobby(i, 'emoji', e.target.value)} placeholder="⚽" style={{ maxWidth: '80px' }} />
+                        </div>
+                        <div className={styles.field}>
+                            <label className={styles.fieldLabel}>Label #{i + 1}</label>
+                            <input className={styles.fieldInput} value={hobby.label} onChange={e => updateHobby(i, 'label', e.target.value)} placeholder="Football" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className={styles.actionBar}>
+                <div className={styles.actionGroup}>
+                    <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSave}>💾 Save Changes</button>
+                    <button className={`${styles.btn} ${styles.btnDanger}`} onClick={() => { setData(defaultPortfolioData.about); setParasText(defaultPortfolioData.about.paragraphs.join('\n\n')); }}>↺ Reset</button>
+                </div>
+                {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved!</span>}
+            </div>
+        </div>
+    );
+}

@@ -1,41 +1,47 @@
+'use client';
+
+import { useState } from 'react';
 import styles from './Skills.module.css';
 import SectionWrapper from './SectionWrapper';
+import { defaultPortfolioData } from '@/data/portfolioData';
 
-const skillCategories = [
-    {
-        title: 'Core Stack (MERN)',
-        skills: ['React.js', 'Next.js', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose']
-    },
-    {
-        title: 'Backend & RDBMS',
-        skills: ['PostgreSQL', 'SQL', 'Redis (Caching)', 'Cron Jobs', 'Firebase', 'Supabase', 'Serverless']
-    },
-    {
-        title: 'Frontend Ecosystem',
-        skills: ['TypeScript', 'Tailwind CSS', 'Redux', 'Responsive Design', 'HTML5/CSS3']
-    },
-    {
-        title: 'Languages',
-        skills: ['JavaScript (ES6+)', 'Python', 'C++', 'Java']
-    },
-    {
-        title: 'Tools & DevOps',
-        skills: ['Git', 'Docker', 'GCP', 'Cloudflare R2', 'Vercel', 'CI/CD']
-    }
-];
+const { skills } = defaultPortfolioData;
 
 export default function Skills() {
+    const [activeCategory, setActiveCategory] = useState<number | null>(null);
+
     return (
         <SectionWrapper id="skills" title="Technical Skills">
             <div className={styles.grid}>
-                {skillCategories.map((category, index) => (
-                    <div key={index} className={styles.card}>
-                        <h3 className={styles.categoryTitle}>{category.title}</h3>
+                {skills.map((category, index) => (
+                    <div
+                        key={index}
+                        className={`${styles.card} ${activeCategory === index ? styles.cardActive : ''}`}
+                        onMouseEnter={() => setActiveCategory(index)}
+                        onMouseLeave={() => setActiveCategory(null)}
+                    >
+                        <div className={styles.categoryHeader}>
+                            <div className={styles.categoryDot} style={{ background: category.gradient }} />
+                            <h3 className={styles.categoryTitle}>{category.title}</h3>
+                        </div>
                         <div className={styles.skillList}>
                             {category.skills.map((skill, i) => (
-                                <span key={i} className={styles.skillTag}>
-                                    {skill}
-                                </span>
+                                <div key={i} className={styles.skillItem}>
+                                    <div className={styles.skillMeta}>
+                                        <span className={styles.skillName}>{skill.name}</span>
+                                        <span className={styles.skillPercent}>{skill.proficiency}%</span>
+                                    </div>
+                                    <div className={styles.barTrack}>
+                                        <div
+                                            className={styles.barFill}
+                                            style={{
+                                                width: `${skill.proficiency}%`,
+                                                background: category.gradient,
+                                                animationDelay: `${i * 80}ms`,
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>
