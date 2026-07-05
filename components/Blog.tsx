@@ -1,11 +1,15 @@
 import styles from './Blog.module.css';
 import SectionWrapper from './SectionWrapper';
 import Link from 'next/link';
-import { blogPosts } from '../data/blogPosts';
+import prisma from '@/lib/prisma';
 
-export default function Blog() {
-    // Show only the first 3 posts on the homepage
-    const recentPosts = blogPosts.slice(0, 3);
+export default async function Blog() {
+    // Show only the first 3 published posts on the homepage
+    const recentPosts = await prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: { createdAt: 'desc' },
+        take: 3
+    });
 
     return (
         <SectionWrapper id="blog" title="Blog">

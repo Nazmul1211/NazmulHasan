@@ -1,6 +1,8 @@
+// app/blog/page.tsx — Server-side dynamic blog post listing
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { blogPosts } from '../../data/blogPosts';
+import prisma from '@/lib/prisma';
 import styles from './blog.module.css';
 
 export const metadata = {
@@ -8,7 +10,13 @@ export const metadata = {
     description: 'Technical articles and insights on web development, serverless architecture, and SaaS growth.',
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+    // Load published blog posts from DB
+    const posts = await prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: { createdAt: 'desc' }
+    });
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -19,7 +27,7 @@ export default function BlogPage() {
             </div>
 
             <div className={styles.grid}>
-                {blogPosts.map((post) => (
+                {posts.map((post) => (
                     <article key={post.slug} className={styles.card}>
                         <Link href={`/blog/${post.slug}`} className={styles.imageLink}>
                             <div className={styles.imageWrapper}>

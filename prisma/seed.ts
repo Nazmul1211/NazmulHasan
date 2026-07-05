@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcryptjs';
 import { defaultPortfolioData } from '../data/portfolioData';
+import { blogPosts } from '../data/blogPosts';
 import prisma from '../lib/prisma';
 
 async function main() {
@@ -54,6 +55,34 @@ async function main() {
             },
         });
         console.log(`✓ Section "${section.key}" seeded.`);
+    }
+
+    // 3. Seed Blog Posts
+    console.log('Seeding blog posts...');
+    for (const post of blogPosts) {
+        await prisma.blogPost.upsert({
+            where: { slug: post.slug },
+            update: {
+                title: post.title,
+                excerpt: post.excerpt,
+                date: post.date,
+                readTime: post.readTime,
+                tags: post.tags,
+                image: post.image,
+                content: post.content,
+            },
+            create: {
+                slug: post.slug,
+                title: post.title,
+                excerpt: post.excerpt,
+                date: post.date,
+                readTime: post.readTime,
+                tags: post.tags,
+                image: post.image,
+                content: post.content,
+            },
+        });
+        console.log(`✓ Blog post "${post.slug}" seeded.`);
     }
 
     console.log('🌿 Seeding completed successfully!');

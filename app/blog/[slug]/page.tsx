@@ -1,7 +1,9 @@
+// app/blog/[slug]/page.tsx — Server-side dynamic blog details page
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { blogPosts } from '../../../data/blogPosts';
+import prisma from '@/lib/prisma';
 import styles from './post.module.css';
 
 interface BlogPostPageProps {
@@ -12,9 +14,11 @@ interface BlogPostPageProps {
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
     const { slug } = await params;
-    const post = blogPosts.find((p) => p.slug === slug);
+    const post = await prisma.blogPost.findUnique({
+        where: { slug }
+    });
 
-    if (!post) {
+    if (!post || !post.published) {
         return {
             title: 'Post Not Found',
         };
@@ -28,9 +32,12 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
-    const post = blogPosts.find((p) => p.slug === slug);
+    const post = await prisma.blogPost.findUnique({
+        where: { slug }
+    });
 
-    if (!post) {
+    // Check if post exists and is published
+    if (!post || !post.published) {
         notFound();
     }
 

@@ -10,6 +10,7 @@ export const adminSections = [
   { key: 'education',  label: 'Education',  icon: 'GraduationCap', description: 'Schools, degrees, dates' },
   { key: 'contact',    label: 'Contact',    icon: 'Mail',          description: 'Email, phone, WhatsApp, social links' },
   { key: 'messages',   label: 'Messages',   icon: 'MessageSquare',  description: 'View client contact form submissions' },
+  { key: 'blog',       label: 'Blog Posts', icon: 'BookOpen',      description: 'Manage tech blog articles, create, edit, delete' },
   { key: 'settings',   label: 'Settings',   icon: 'Settings',      description: 'Update admin account security' },
 ] as const;
 
