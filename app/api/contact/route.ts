@@ -1,8 +1,10 @@
 // app/api/contact/route.ts
 
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '@/lib/prisma';
+import { verifyJWT, ACCESS_COOKIE } from '@/lib/auth';
 
 export async function POST(request: Request) {
     try {
@@ -41,6 +43,15 @@ export async function POST(request: Request) {
 
 export async function GET() {
     try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get(ACCESS_COOKIE)?.value;
+        if (!token || !(await verifyJWT(token))) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: StatusCodes.UNAUTHORIZED }
+            );
+        }
+
         // Fetch all messages sorted by date descending
         const messages = await prisma.contactMessage.findMany({
             orderBy: { createdAt: 'desc' }

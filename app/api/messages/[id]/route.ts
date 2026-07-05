@@ -1,14 +1,25 @@
 // app/api/messages/[id]/route.ts
 
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '@/lib/prisma';
+import { verifyJWT, ACCESS_COOKIE } from '@/lib/auth';
 
 export async function PATCH(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get(ACCESS_COOKIE)?.value;
+        if (!token || !(await verifyJWT(token))) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: StatusCodes.UNAUTHORIZED }
+            );
+        }
+
         const resolvedParams = await params;
         const messageId = parseInt(resolvedParams.id, 10);
 
@@ -52,6 +63,15 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get(ACCESS_COOKIE)?.value;
+        if (!token || !(await verifyJWT(token))) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: StatusCodes.UNAUTHORIZED }
+            );
+        }
+
         const resolvedParams = await params;
         const messageId = parseInt(resolvedParams.id, 10);
 

@@ -1,9 +1,11 @@
 // app/api/portfolio/[section]/route.ts
 
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '@/lib/prisma';
 import { defaultPortfolioData, PortfolioData } from '@/data/portfolioData';
+import { verifyJWT, ACCESS_COOKIE } from '@/lib/auth';
 
 // Helper to check valid sections
 const VALID_SECTIONS = ['hero', 'about', 'skills', 'projects', 'experience', 'education', 'contact'] as const;
@@ -50,6 +52,15 @@ export async function PUT(
     { params }: { params: Promise<{ section: string }> }
 ) {
     try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get(ACCESS_COOKIE)?.value;
+        if (!token || !(await verifyJWT(token))) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: StatusCodes.UNAUTHORIZED }
+            );
+        }
+
         const resolvedParams = await params;
         const section = resolvedParams.section;
 
