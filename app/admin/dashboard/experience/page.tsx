@@ -7,37 +7,49 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { Briefcase, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
 
-function loadData(): ExperienceItem[] {
-    if (typeof window === 'undefined') return defaultPortfolioData.experience;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).experience ?? defaultPortfolioData.experience;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.experience;
-}
-function saveSection(data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all.experience = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function ExperienceEditorPage() {
     const [items, setItems] = useState<ExperienceItem[]>(defaultPortfolioData.experience);
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => { setItems(loadData()); }, []);
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/experience');
+                if (res.ok) {
+                    const data = await res.json();
+                    setItems(data);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
 
     const update = (i: number, field: keyof ExperienceItem, val: string | string[]) => {
         setItems(prev => prev.map((item, idx) => idx === i ? { ...item, [field]: val } : item));
     };
 
-    const handleSave = () => {
-        saveSection(items);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+    const handleSave = async () => {
+        try {
+            const res = await fetch('/api/portfolio/experience', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(items)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
     };
 
     const addItem = () => {

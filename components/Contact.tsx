@@ -1,71 +1,132 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Contact.module.css';
 import SectionWrapper from './SectionWrapper';
-import { defaultPortfolioData } from '@/data/portfolioData';
+import { ContactData, defaultPortfolioData } from '@/data/portfolioData';
 
-const { contact } = defaultPortfolioData;
-
-const contactCards = [
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-        ),
-        label: 'GitHub',
-        value: '@Nazmul1211',
-        href: contact.github,
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-            </svg>
-        ),
-        label: 'LinkedIn',
-        value: 'Nazmul Hasan',
-        href: contact.linkedin,
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-        ),
-        label: 'Email',
-        value: contact.email,
-        href: `mailto:${contact.email}`,
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/>
-            </svg>
-        ),
-        label: 'Phone',
-        value: contact.phone,
-        href: `tel:${contact.phone}`,
-    },
-];
-
-export default function Contact() {
+export default function Contact({ data }: { data?: ContactData }) {
+    const contact = data || defaultPortfolioData.contact;
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | null }>({ message: '', type: null });
+
+    // Auto-dismiss toast notification after 5 seconds
+    useEffect(() => {
+        if (toast.type) {
+            const timer = setTimeout(() => {
+                setToast({ message: '', type: null });
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [toast.type]);
+
+    // Helper to get username/handle from GitHub URL
+    const getGithubHandle = (url: string) => {
+        try {
+            const parts = url.replace(/\/$/, '').split('/');
+            return `@${parts[parts.length - 1]}`;
+        } catch {
+            return '@GitHub';
+        }
+    };
+
+    // Helper to get name from LinkedIn URL
+    const getLinkedInName = (url: string) => {
+        try {
+            const parts = url.replace(/\/$/, '').split('/');
+            const name = parts[parts.length - 1];
+            if (name.includes('in-')) {
+                return name.split('in-')[1]?.replace(/-/g, ' ') || 'LinkedIn Profile';
+            }
+            return name.replace(/-/g, ' ');
+        } catch {
+            return 'LinkedIn Profile';
+        }
+    };
+
+    const contactCards = [
+        {
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+            ),
+            label: 'GitHub',
+            value: getGithubHandle(contact.github),
+            href: contact.github,
+        },
+        {
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+            ),
+            label: 'LinkedIn',
+            value: getLinkedInName(contact.linkedin),
+            href: contact.linkedin,
+        },
+        {
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+            ),
+            label: 'Email',
+            value: contact.email,
+            href: `mailto:${contact.email}`,
+        },
+        {
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/>
+                </svg>
+            ),
+            label: 'Phone',
+            value: contact.phone,
+            href: `tel:${contact.phone}`,
+        },
+    ];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('sending');
 
-        const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-        const body = encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-        );
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    subject: `Portfolio Contact from ${formData.name}`,
+                    message: formData.message
+                })
+            });
 
-        window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`;
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+            if (res.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', message: '' });
+                setToast({
+                    message: 'Message Sent Successfully! Nazmul will get back to you shortly.',
+                    type: 'success'
+                });
+            } else {
+                setStatus('error');
+                setToast({
+                    message: 'Failed to send message. Please try again later.',
+                    type: 'error'
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            setStatus('error');
+            setToast({
+                message: 'Connection error. Please check your network and try again.',
+                type: 'error'
+            });
+        }
+
         setTimeout(() => setStatus('idle'), 3000);
     };
 
@@ -113,11 +174,28 @@ export default function Contact() {
                             <textarea id="message" name="message" className={styles.textarea} value={formData.message} onChange={handleChange} required></textarea>
                         </div>
                         <button type="submit" className={styles.submitButton} disabled={status === 'sending'}>
-                            {status === 'sending' ? 'Opening Mail...' : status === 'success' ? '✓ Message Ready!' : 'Send Message'}
+                            {status === 'sending' ? 'Sending Message...' : 'Send Message'}
                         </button>
                     </form>
                 </div>
             </div>
+
+            {/* Premium Animated Toast Notification */}
+            {toast.type && (
+                <div className={`${styles.toast} ${styles[toast.type]}`}>
+                    <div className={styles.toastIcon}>
+                        {toast.type === 'success' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m18 6-12 12M6 6l12 12"/></svg>
+                        )}
+                    </div>
+                    <div className={styles.toastMessage}>{toast.message}</div>
+                    <button className={styles.toastClose} onClick={() => setToast({ message: '', type: null })}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            )}
         </SectionWrapper>
     );
 }

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from '../admin.module.css';
-import { ADMIN_SESSION_KEY, adminSections } from '@/lib/adminConfig';
+import { adminSections } from '@/lib/adminConfig';
 import ThemeToggle from '@/components/ThemeToggle';
 import SectionIcon from '@/components/admin/SectionIcon';
 import { ExternalLink, LogOut, LayoutDashboard } from 'lucide-react';
@@ -14,14 +14,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const pathname = usePathname();
 
     useEffect(() => {
-        const auth = sessionStorage.getItem(ADMIN_SESSION_KEY);
-        if (auth !== 'authenticated') {
-            router.replace('/admin');
-        }
-    }, [router]);
+        const checkAuth = async () => {
+            try {
+                const res = await fetch('/api/auth/me');
+                if (!res.ok) {
+                    router.replace('/admin');
+                }
+            } catch (err) {
+                console.error(err);
+                router.replace('/admin');
+            }
+        };
+        checkAuth();
+    }, [router, pathname]); // Re-verify on navigation to catch session expiry
 
-    const handleLogout = () => {
-        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (err) {
+            console.error(err);
+        }
         router.push('/admin');
     };
 

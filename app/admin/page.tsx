@@ -2,34 +2,53 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import styles from './admin.module.css';
-import { ADMIN_PASSWORD, ADMIN_SESSION_KEY } from '@/lib/adminConfig';
+import { Eye, EyeOff, Lock, Mail, LogIn, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export default function AdminLoginPage() {
+    const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
-        // Simulate a small delay for UX
-        setTimeout(() => {
-            if (password === ADMIN_PASSWORD) {
-                sessionStorage.setItem(ADMIN_SESSION_KEY, 'authenticated');
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ emailOrUsername, password }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
                 router.push('/admin/dashboard');
             } else {
-                setError('Incorrect password. Please try again.');
+                setError(data.error || 'Incorrect email/username or password.');
                 setLoading(false);
             }
-        }, 600);
+        } catch (err) {
+            console.error(err);
+            setError('An error occurred. Please try again later.');
+            setLoading(false);
+        }
     };
 
     return (
         <div className={styles.loginPage}>
+            {/* Back to Website Button */}
+            <Link href="/" className={styles.backToHome}>
+                <ArrowLeft size={16} />
+                Back to Website
+            </Link>
+
             <div className={styles.loginBg}>
                 <div className={styles.loginBlob1} />
                 <div className={styles.loginBlob2} />
@@ -40,47 +59,96 @@ export default function AdminLoginPage() {
                     <div className={styles.loginLogo}>
                         <span>NH</span>
                     </div>
-                    <h1 className={styles.loginTitle}>Admin Dashboard</h1>
-                    <p className={styles.loginSubtitle}>Enter your password to manage portfolio content</p>
+                    <h1 className={styles.loginTitle}>Admin Login</h1>
+                    <p className={styles.loginSubtitle}>Manage portfolio dynamic CMS tables</p>
                 </div>
 
+                {error && (
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                        borderRadius: '0.5rem',
+                        padding: '0.75rem 1rem',
+                        color: '#ef4444',
+                        fontSize: '0.85rem',
+                        marginBottom: '1.25rem'
+                    }}>
+                        <AlertCircle size={16} />
+                        <span>{error}</span>
+                    </div>
+                )}
+
                 <form onSubmit={handleLogin} className={styles.loginForm}>
+                    {/* Email / Username Field */}
                     <div className={styles.inputGroup}>
-                        <label className={styles.inputLabel}>Password</label>
+                        <label className={styles.inputLabel}>Email or Username</label>
                         <div className={styles.inputWrap}>
-                            <svg className={styles.inputIcon} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                            </svg>
+                            <Mail className={styles.inputIcon} size={18} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-dim)' }} />
                             <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter admin password"
+                                type="text"
+                                value={emailOrUsername}
+                                onChange={(e) => setEmailOrUsername(e.target.value)}
+                                placeholder="Enter email or username"
                                 className={styles.passwordInput}
-                                autoComplete="current-password"
+                                style={{ paddingLeft: '3.25rem' }}
+                                autoComplete="username"
                                 required
                             />
                         </div>
-                        {error && <p className={styles.errorMsg}>{error}</p>}
                     </div>
 
-                    <button type="submit" className={styles.loginBtn} disabled={loading || !password}>
+                    {/* Password Field */}
+                    <div className={styles.inputGroup}>
+                        <label className={styles.inputLabel}>Password</label>
+                        <div className={styles.inputWrap} style={{ position: 'relative' }}>
+                            <Lock className={styles.inputIcon} size={18} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-dim)' }} />
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                className={styles.passwordInput}
+                                style={{ paddingLeft: '3.25rem', paddingRight: '3.25rem' }}
+                                autoComplete="current-password"
+                                required
+                            />
+                            {/* Eye Show / Hide Toggle Button */}
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: 'absolute',
+                                    right: '1.25rem',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    color: 'var(--foreground-dim)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: 0
+                                }}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" className={styles.loginBtn} disabled={loading || !emailOrUsername || !password} style={{ marginTop: '0.5rem' }}>
                         {loading ? (
                             <span className={styles.spinner} />
                         ) : (
                             <>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/>
-                                </svg>
+                                <LogIn size={18} />
                                 Sign In
                             </>
                         )}
                     </button>
                 </form>
-
-                <p className={styles.loginFootnote}>
-                    Default password: <code>portfolio@admin</code> — change it in <code>lib/adminConfig.ts</code>
-                </p>
             </div>
         </div>
     );

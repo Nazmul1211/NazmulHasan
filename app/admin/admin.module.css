@@ -946,3 +946,43 @@
 :global([data-theme="light"]) .rangeSlider {
     background: rgba(0, 0, 0, 0.08);
 }
+
+.backToHome {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--foreground-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.backToHome:hover {
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateX(-3px);
+}
+
+:global([data-theme="light"]) .backToHome {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: var(--foreground-muted);
+}
+
+:global([data-theme="light"]) .backToHome:hover {
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.04);
+}
+

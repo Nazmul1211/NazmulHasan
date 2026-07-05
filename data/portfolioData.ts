@@ -49,6 +49,7 @@ export interface Project {
   challenges: string[];
   futurePlans: string[];
   featured: boolean;
+  published: boolean;
 }
 
 export interface ExperienceItem {
@@ -103,9 +104,9 @@ export const defaultPortfolioData: PortfolioData = {
   // ─── ABOUT ───────────────────────────────────────────────
   about: {
     paragraphs: [
-      'I am a passionate MERN Stack Developer with a strong foundation in computer science principles and modern web application development.',
+      'I am a passionate **MERN Stack Developer** with a strong foundation in computer science principles and modern web application development.',
       'With expertise spanning the full stack—from crafting pixel-perfect React frontends to architecting scalable Node.js backends—I specialize in building products that not only work flawlessly but also delight users. My entrepreneurial journey has taught me to balance technical excellence with business impact.',
-      "I've built and scaled SaaS products from zero to 25,000+ users, achieved #1 Google rankings, and helped clients reduce infrastructure costs by up to 60%.",
+      "I've built and scaled SaaS products from zero to **25,000+ users**, achieved **#1 Google rankings**, and helped clients reduce infrastructure costs by up to **60%**.",
     ],
     stats: [
       { value: '15+', label: 'Production Apps' },
@@ -207,6 +208,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Implement a gamification system with badges and learning streaks to improve student retention.',
       ],
       featured: true,
+      published: true,
     },
     {
       slug: 'flowditor',
@@ -230,6 +232,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Build team collaboration features with role-based access control.',
       ],
       featured: true,
+      published: true,
     },
     {
       slug: 'gpa-calculator',
@@ -253,6 +256,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Launch a mobile app version with offline calculation capabilities.',
       ],
       featured: true,
+      published: true,
     },
     {
       slug: 'volume-calculator',
@@ -274,6 +278,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Create an API endpoint for developers to use the calculator logic programmatically.',
       ],
       featured: false,
+      published: true,
     },
     {
       slug: 'cheetahtype',
@@ -297,6 +302,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Build a browser extension for passive typing practice on any website.',
       ],
       featured: true,
+      published: true,
     },
     {
       slug: 'texteditor',
@@ -320,6 +326,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Build a template library with 100+ professional document templates.',
       ],
       featured: true,
+      published: true,
     },
     {
       slug: 'brand-shop',
@@ -342,6 +349,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Implement product reviews and ratings with verified-purchase gating.',
       ],
       featured: false,
+      published: true,
     },
     {
       slug: 'bd-turf',
@@ -364,6 +372,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Build a review system for turf quality ratings to help users make informed choices.',
       ],
       featured: false,
+      published: true,
     },
     {
       slug: 'ph-tube',
@@ -385,6 +394,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Implement real-time view counts and comments using WebSockets.',
       ],
       featured: false,
+      published: true,
     },
     {
       slug: 'summer-sale',
@@ -405,6 +415,7 @@ export const defaultPortfolioData: PortfolioData = {
         'Implement A/B testing for different promotional banner designs.',
       ],
       featured: false,
+      published: true,
     },
   ],
 

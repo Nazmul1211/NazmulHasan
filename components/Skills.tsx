@@ -3,17 +3,16 @@
 import { useState } from 'react';
 import styles from './Skills.module.css';
 import SectionWrapper from './SectionWrapper';
-import { defaultPortfolioData } from '@/data/portfolioData';
+import { defaultPortfolioData, SkillCategory } from '@/data/portfolioData';
 
-const { skills } = defaultPortfolioData;
-
-export default function Skills() {
+export default function Skills({ data }: { data?: SkillCategory[] }) {
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
+    const skillsList = data || defaultPortfolioData.skills;
 
     return (
         <SectionWrapper id="skills" title="Technical Skills">
             <div className={styles.grid}>
-                {skills.map((category, index) => (
+                {skillsList.map((category, index) => (
                     <div
                         key={index}
                         className={`${styles.card} ${activeCategory === index ? styles.cardActive : ''}`}

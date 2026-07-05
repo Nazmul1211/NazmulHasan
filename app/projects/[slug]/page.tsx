@@ -1,20 +1,48 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
-import { defaultPortfolioData } from '@/data/portfolioData';
+import { defaultPortfolioData, Project } from '@/data/portfolioData';
 import StickyProjectHeader from '@/components/StickyProjectHeader';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
 }
 
+import prisma from '@/lib/prisma';
+
+export const revalidate = 0;
+
+async function getProject(slug: string): Promise<Project | null> {
+    try {
+        const record = await prisma.portfolioSection.findUnique({
+            where: { key: 'projects' }
+        });
+        const projects: Project[] = record ? (record.content as any) : defaultPortfolioData.projects;
+        const found = projects.find((p) => p.slug === slug);
+        if (found && found.published === false) return null;
+        return found || null;
+    } catch {
+        const found = defaultPortfolioData.projects.find((p) => p.slug === slug);
+        if (found && found.published === false) return null;
+        return found || null;
+    }
+}
+
 export async function generateStaticParams() {
-    return defaultPortfolioData.projects.map((p) => ({ slug: p.slug }));
+    try {
+        const record = await prisma.portfolioSection.findUnique({
+            where: { key: 'projects' }
+        });
+        const projects: Project[] = record ? (record.content as any) : defaultPortfolioData.projects;
+        return projects.map((p) => ({ slug: p.slug }));
+    } catch {
+        return defaultPortfolioData.projects.map((p) => ({ slug: p.slug }));
+    }
 }
 
 export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params;
-    const project = defaultPortfolioData.projects.find((p) => p.slug === slug);
+    const project = await getProject(slug);
     if (!project) return { title: 'Project Not Found' };
     return {
         title: `${project.title} — Nazmul Hasan`,
@@ -24,7 +52,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ProjectDetailPage({ params }: PageProps) {
     const { slug } = await params;
-    const project = defaultPortfolioData.projects.find((p) => p.slug === slug);
+    const project = await getProject(slug);
 
     if (!project) notFound();
 

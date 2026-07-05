@@ -1,8 +1,6 @@
 import styles from './About.module.css';
 import SectionWrapper from './SectionWrapper';
-import { defaultPortfolioData } from '@/data/portfolioData';
-
-const { about } = defaultPortfolioData;
+import { AboutData, defaultPortfolioData } from '@/data/portfolioData';
 
 const getHobbyIcon = (label: string) => {
     const norm = label.toLowerCase();
@@ -60,31 +58,39 @@ const getHobbyIcon = (label: string) => {
     );
 };
 
-export default function About() {
+const formatText = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return (
+                <span key={index} className="highlight">
+                    {part.slice(2, -2)}
+                </span>
+            );
+        }
+        return part;
+    });
+};
+
+export default function About({ data }: { data?: AboutData }) {
+    const about = data || defaultPortfolioData.about;
+    const paragraphs = about.paragraphs || [];
+
     return (
         <SectionWrapper id="about" title="About Me">
             <div className={styles.container}>
                 {/* About Text */}
                 <div className={styles.aboutText}>
-                    <p className={styles.leadParagraph}>
-                        I am a passionate <span className="highlight">MERN Stack Developer</span> with a strong foundation in
-                        computer science principles and modern web application development.
-                    </p>
-                    <p className={styles.paragraph}>
-                        With expertise spanning the full stack—from crafting pixel-perfect React frontends to architecting
-                        scalable Node.js backends—I specialize in building products that not only work flawlessly but also
-                        delight users. My entrepreneurial journey has taught me to balance technical excellence with business impact.
-                    </p>
-                    <p className={styles.paragraph}>
-                        I&apos;ve built and scaled SaaS products from zero to <span className="highlight">25,000+ users</span>,
-                        achieved <span className="highlight">#1 Google rankings</span>, and helped clients
-                        reduce infrastructure costs by up to <span className="highlight">60%</span>.
-                    </p>
+                    {paragraphs.map((p, i) => (
+                        <p key={i} className={i === 0 ? styles.leadParagraph : styles.paragraph}>
+                            {formatText(p)}
+                        </p>
+                    ))}
                 </div>
 
                 {/* Stats Grid */}
                 <div className={styles.statsGrid}>
-                    {about.stats.map((stat, i) => (
+                    {about.stats && about.stats.map((stat, i) => (
                         <div key={i} className={styles.statCard}>
                             <span className={styles.statValue}>{stat.value}</span>
                             <span className={styles.statLabel}>{stat.label}</span>
@@ -99,7 +105,7 @@ export default function About() {
                         When I&apos;m not building apps, you&apos;ll find me:
                     </p>
                     <div className={styles.hobbiesGrid}>
-                        {about.hobbies.map((hobby, i) => (
+                        {about.hobbies && about.hobbies.map((hobby, i) => (
                             <div key={i} className={styles.hobbyCard}>
                                 <div className={styles.iconContainer}>
                                     {getHobbyIcon(hobby.label)}

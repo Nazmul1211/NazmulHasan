@@ -7,30 +7,47 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { Wrench, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
 
-function loadData(): SkillCategory[] {
-    if (typeof window === 'undefined') return defaultPortfolioData.skills;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).skills ?? defaultPortfolioData.skills;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.skills;
-}
-
-function saveSection(data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all.skills = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function SkillsEditorPage() {
     const [skills, setSkills] = useState<SkillCategory[]>(defaultPortfolioData.skills);
     const [saved, setSaved] = useState(false);
     const [activeCat, setActiveCat] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => { setSkills(loadData()); }, []);
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/skills');
+                if (res.ok) {
+                    const data = await res.json();
+                    setSkills(data);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
+
+    const handleSave = async () => {
+        try {
+            const res = await fetch('/api/portfolio/skills', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(skills)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
+    };
 
     const updateSkillProficiency = (catIdx: number, skillIdx: number, value: number) => {
         setSkills(prev => prev.map((cat, ci) =>
@@ -60,12 +77,6 @@ export default function SkillsEditorPage() {
         setSkills(prev => prev.map((cat, ci) =>
             ci === catIdx ? { ...cat, skills: [...cat.skills, { name: 'New Skill', proficiency: 70 }] } : cat
         ));
-    };
-
-    const handleSave = () => {
-        saveSection(skills);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
     };
 
     const currentCat = skills[activeCat];

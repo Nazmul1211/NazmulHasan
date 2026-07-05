@@ -1,8 +1,4 @@
 // Admin dashboard configuration
-// ⚠️ IMPORTANT: Change this password before deploying!
-export const ADMIN_PASSWORD = 'portfolio@admin';
-
-export const ADMIN_SESSION_KEY = 'nh_admin_auth';
 export const PORTFOLIO_STORAGE_KEY = 'nh_portfolio_data_v1';
 
 export const adminSections = [
@@ -13,6 +9,8 @@ export const adminSections = [
   { key: 'experience', label: 'Experience', icon: 'Briefcase',     description: 'Work history and responsibilities' },
   { key: 'education',  label: 'Education',  icon: 'GraduationCap', description: 'Schools, degrees, dates' },
   { key: 'contact',    label: 'Contact',    icon: 'Mail',          description: 'Email, phone, WhatsApp, social links' },
+  { key: 'messages',   label: 'Messages',   icon: 'MessageSquare',  description: 'View client contact form submissions' },
+  { key: 'settings',   label: 'Settings',   icon: 'Settings',      description: 'Update admin account security' },
 ] as const;
 
 export type SectionKey = typeof adminSections[number]['key'];

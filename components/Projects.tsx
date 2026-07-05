@@ -1,15 +1,15 @@
 import styles from './Projects.module.css';
 import SectionWrapper from './SectionWrapper';
 import ProjectCard from './ProjectCard';
-import { defaultPortfolioData } from '@/data/portfolioData';
+import { defaultPortfolioData, Project } from '@/data/portfolioData';
 
-const { projects } = defaultPortfolioData;
+export default function Projects({ data }: { data?: Project[] }) {
+    const projectsList = (data || defaultPortfolioData.projects).filter(p => p.published !== false);
 
-export default function Projects() {
     return (
         <SectionWrapper id="projects" title="Featured Projects">
             <div className={styles.grid}>
-                {projects.map((project, index) => (
+                {projectsList.map((project, index) => (
                     <ProjectCard key={index} {...project} />
                 ))}
             </div>

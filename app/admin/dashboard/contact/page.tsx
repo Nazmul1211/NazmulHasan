@@ -7,34 +7,45 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { Mail, Save, Download, RotateCcw } from 'lucide-react';
 
-function loadData(): ContactData {
-    if (typeof window === 'undefined') return defaultPortfolioData.contact;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).contact ?? defaultPortfolioData.contact;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.contact;
-}
-
-function saveSection(section: string, data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all[section] = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function ContactEditorPage() {
     const [data, setData] = useState<ContactData>(defaultPortfolioData.contact);
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => { setData(loadData()); }, []);
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/contact');
+                if (res.ok) {
+                    const data = await res.json();
+                    setData(data);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
 
-    const handleSave = () => {
-        saveSection('contact', data);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+    const handleSave = async () => {
+        try {
+            const res = await fetch('/api/portfolio/contact', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
     };
 
     const handleReset = () => setData(defaultPortfolioData.contact);
@@ -101,7 +112,7 @@ export default function ContactEditorPage() {
                         <RotateCcw size={16} /> Reset to Default
                     </button>
                 </div>
-                {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved to localStorage!</span>}
+                {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved successfully!</span>}
             </div>
         </div>
     );

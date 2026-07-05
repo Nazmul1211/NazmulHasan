@@ -7,42 +7,51 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { User, Save, RotateCcw } from 'lucide-react';
 
-function loadData(): AboutData {
-    if (typeof window === 'undefined') return defaultPortfolioData.about;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).about ?? defaultPortfolioData.about;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.about;
-}
-function saveSection(data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all.about = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function AboutEditorPage() {
     const [data, setData] = useState<AboutData>(defaultPortfolioData.about);
     const [parasText, setParasText] = useState('');
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const d = loadData();
-        setData(d);
-        setParasText(d.paragraphs.join('\n\n'));
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/about');
+                if (res.ok) {
+                    const d = await res.json();
+                    setData(d);
+                    setParasText(d.paragraphs.join('\n\n'));
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const updated = {
             ...data,
             paragraphs: parasText.split('\n\n').map(p => p.trim()).filter(Boolean),
         };
-        saveSection(updated);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+        try {
+            const res = await fetch('/api/portfolio/about', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updated)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
     };
 
     const updateStat = (i: number, field: 'value' | 'label', val: string) => {

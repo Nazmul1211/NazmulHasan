@@ -7,40 +7,48 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { Sparkles, Save, Download, RotateCcw } from 'lucide-react';
 
-function loadData(): HeroData {
-    if (typeof window === 'undefined') return defaultPortfolioData.hero;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).hero ?? defaultPortfolioData.hero;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.hero;
-}
-
-function saveSection(section: string, data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all[section] = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function HeroEditorPage() {
     const [data, setData] = useState<HeroData>(defaultPortfolioData.hero);
     const [rolesText, setRolesText] = useState('');
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const d = loadData();
-        setData(d);
-        setRolesText(d.roles.join('\n'));
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/hero');
+                if (res.ok) {
+                    const d = await res.json();
+                    setData(d);
+                    setRolesText(d.roles.join('\n'));
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const updated = { ...data, roles: rolesText.split('\n').map(r => r.trim()).filter(Boolean) };
-        saveSection('hero', updated);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+        try {
+            const res = await fetch('/api/portfolio/hero', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updated)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
     };
 
     const handleReset = () => {
@@ -115,7 +123,7 @@ export default function HeroEditorPage() {
                         <RotateCcw size={16} /> Reset to Default
                     </button>
                 </div>
-                {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved to localStorage!</span>}
+                {saved && <span className={`${styles.toast} ${styles.toastSuccess}`}>✓ Saved successfully!</span>}
             </div>
         </div>
     );

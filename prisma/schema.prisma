@@ -1,0 +1,40 @@
+// This is your Prisma schema file
+// Neon PostgreSQL (standard postgres driver)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Admin ──────────────────────────────────────────────────
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique @default("mnhs1211@gmail.com")
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ─── Portfolio Sections ──────────────────────────────────────
+// Each section (hero, about, skills, etc.) is stored as a JSON blob
+model PortfolioSection {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique // 'hero' | 'about' | 'skills' | ...
+  content   Json
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Contact Messages ────────────────────────────────────────
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

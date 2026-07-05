@@ -7,37 +7,49 @@ import { PORTFOLIO_STORAGE_KEY } from '@/lib/adminConfig';
 
 import { GraduationCap, Save, RotateCcw, Plus, Trash2 } from 'lucide-react';
 
-function loadData(): EducationItem[] {
-    if (typeof window === 'undefined') return defaultPortfolioData.education;
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        if (stored) return JSON.parse(stored).education ?? defaultPortfolioData.education;
-    } catch { /* ignore */ }
-    return defaultPortfolioData.education;
-}
-function saveSection(data: unknown) {
-    try {
-        const stored = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
-        const all = stored ? JSON.parse(stored) : {};
-        all.education = data;
-        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(all));
-    } catch { /* ignore */ }
-}
-
 export default function EducationEditorPage() {
     const [items, setItems] = useState<EducationItem[]>(defaultPortfolioData.education);
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => { setItems(loadData()); }, []);
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch('/api/portfolio/education');
+                if (res.ok) {
+                    const data = await res.json();
+                    setItems(data);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
 
     const update = (i: number, field: keyof EducationItem, val: string) => {
         setItems(prev => prev.map((item, idx) => idx === i ? { ...item, [field]: val } : item));
     };
 
-    const handleSave = () => {
-        saveSection(items);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+    const handleSave = async () => {
+        try {
+            const res = await fetch('/api/portfolio/education', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(items)
+            });
+            if (res.ok) {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2500);
+            } else {
+                alert('Failed to save changes');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        }
     };
 
     const addItem = () => {
