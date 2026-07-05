@@ -12,7 +12,7 @@ export async function GET() {
         // Map database records into a single PortfolioData object
         const mergedData: Partial<PortfolioData> = { ...defaultPortfolioData };
 
-        records.forEach((record) => {
+        records.forEach((record: { key: string; content: any }) => {
             const key = record.key as keyof PortfolioData;
             if (key in defaultPortfolioData) {
                 // Safely assign database content
