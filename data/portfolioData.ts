@@ -192,7 +192,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Full-stack marketplace connecting 1,000+ students and tutors with serverless architecture, reducing infrastructure costs by 60%.',
       fullDescription:
-        'TuitionPort is a comprehensive tutoring marketplace that bridges the gap between students and qualified tutors. Built with a serverless architecture leveraging Neon PostgreSQL and Cloudflare R2, the platform offers real-time tutor matching, secure payment processing, session scheduling, and progress tracking. The platform has onboarded 1,000+ users and demonstrates how modern serverless technologies can dramatically reduce operational overhead.',
+        'TuitionPort is a comprehensive tutoring marketplace that bridges the gap between students and qualified tutors. Built with a serverless architecture leveraging Neon PostgreSQL and Cloudflare R2, it demonstrates modern best practices in scalability, security, and cost optimization.',
       techStack: ['Next.js', 'Node.js', 'PostgreSQL (Neon)', 'Cloudflare R2', 'Firebase Auth'],
       liveUrl: 'https://tuitionport.com',
       challenges: [
@@ -216,7 +216,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'AI automation platform integrating Tavily and Google AI Studio for content generation and WordPress publishing, reducing manual work by 85%.',
       fullDescription:
-        'Flowditor is an AI-powered content automation platform that streamlines the entire content production workflow—from research to publishing. By integrating Tavily for real-time web research and Google AI Studio for intelligent content generation, Flowditor can autonomously draft, format, and publish articles directly to WordPress sites. The platform has reduced manual content production time by 85% for its users.',
+        'Flowditor is an AI-powered content automation platform that streamlines the entire content production workflow—from research to publishing. By integrating Tavily for real-time web research and Google AI Studio for intelligent content generation, it automates repetitive tasks and helps creators focus on strategy.',
       techStack: ['Next.js', 'Tavily API', 'Google AI Studio (Gemini)', 'Firebase', 'WordPress REST API'],
       liveUrl: 'https://flowditor.vercel.app',
       challenges: [
@@ -240,7 +240,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'SEO-optimized SaaS platform serving 20,000+ monthly users with #1 Google ranking, monetized via AdSense and Mediavine.',
       fullDescription:
-        'GPA Calculator (gpacalculators.net) is a high-traffic SEO-optimized SaaS platform that provides comprehensive GPA calculation tools for students across different grading systems (4.0 scale, percentage, letter grade). The site has achieved #1 Google rankings for key search terms, attracting over 20,000 monthly organic users and generating sustainable ad revenue through Google AdSense and Mediavine.',
+        'GPA Calculator (gpacalculators.net) is a high-traffic SEO-optimized SaaS platform that provides comprehensive GPA calculation tools for students across different grading systems (4.0 scale, weighted GPA, semester GPA). It ranks #1 in Google for competitive keywords and serves 20,000+ monthly organic visitors.',
       techStack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Tailwind CSS', 'Google AdSense'],
       liveUrl: 'https://gpacalculators.net',
       challenges: [
@@ -264,7 +264,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Multi-use educational tools website built with Next.js featuring various volume calculators for learning purposes.',
       fullDescription:
-        'Volume Calculator (volumecalculator.co) is an educational tools platform offering a suite of precise volume calculators for geometric shapes—from basic cubes and spheres to complex prisms and cylinders. Designed for students, engineers, and educators, the site provides instant calculations with step-by-step explanations and is fully SEO-optimized to attract organic search traffic.',
+        'Volume Calculator (volumecalculator.co) is an educational tools platform offering a suite of precise volume calculators for geometric shapes—from basic cubes and spheres to complex prisms and pyramids. Built with Next.js for optimal SEO and performance.',
       techStack: ['Next.js', 'TypeScript', 'SEO', 'Vercel'],
       liveUrl: 'https://volumecalculator.co/',
       challenges: [
@@ -286,7 +286,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'High-performance typing test with real-time WPM/accuracy tracking, Firebase leaderboards, and Chart.js analytics dashboard.',
       fullDescription:
-        'CheetahType is a competitive typing practice platform built for speed enthusiasts. The app features real-time WPM and accuracy tracking, multiple difficulty modes, a global Firebase leaderboard, and a personalized analytics dashboard powered by Chart.js. Users can track their progress over time, compete with others, and view detailed keystroke analysis to identify and improve on weak spots.',
+        'CheetahType is a competitive typing practice platform built for speed enthusiasts. The app features real-time WPM and accuracy tracking, multiple difficulty modes, a global Firebase leaderboard, and an analytics dashboard powered by Chart.js.',
       techStack: ['Next.js', 'Firebase', 'Tailwind CSS', 'Chart.js', 'Framer Motion'],
       liveUrl: 'https://cheetahtype.com',
       challenges: [
@@ -310,7 +310,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Feature-rich online text editor with formatting, export (TXT, PDF, DOCX), cloud sync, and PWA support serving 5,000+ users.',
       fullDescription:
-        'TextEditor4U is a fully-featured browser-based text editor built as a Progressive Web App (PWA). It offers rich text formatting, multiple export formats (TXT, PDF, DOCX), cloud sync via Firebase, offline support, and a clean distraction-free writing environment. With 5,000+ users, it serves writers, students, and professionals who need a reliable, no-install writing tool.',
+        'TextEditor4U is a fully-featured browser-based text editor built as a Progressive Web App (PWA). It offers rich text formatting, multiple export formats (TXT, PDF, DOCX), cloud sync via Firebase, and works seamlessly offline.',
       techStack: ['React.js', 'Firebase', 'Tailwind CSS', 'PWA', 'jsPDF', 'docx.js'],
       liveUrl: 'https://texteditor4u.netlify.app/',
       challenges: [
@@ -334,7 +334,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Single-store eCommerce platform with product browsing, cart management, and user authentication.',
       fullDescription:
-        'Brand Shop is a fully functional single-store eCommerce platform featuring product catalog browsing with category filtering, a shopping cart with quantity management, secure user authentication, and a clean responsive UI. Built as a full-stack MERN application with RESTful API architecture.',
+        'Brand Shop is a fully functional single-store eCommerce platform featuring product catalog browsing with category filtering, a shopping cart with quantity management, secure user authentication, and order history tracking.',
       techStack: ['React.js', 'Tailwind CSS', 'DaisyUI', 'Express.js', 'MongoDB'],
       liveUrl: 'https://brand-shop-5e4ab.web.app/',
       githubUrl: 'https://github.com/Nazmul1211/brandshop-client',
@@ -357,7 +357,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Turf Booking and Management Platform allowing users to browse, book, and manage turf reservations.',
       fullDescription:
-        'BD Turf is a sports facility booking platform tailored for Bangladesh that allows users to browse turf availability, make time-slot reservations, and manage their bookings. The platform features a real-time availability calendar, user profile management, and an admin interface for facility owners to manage their listings.',
+        'BD Turf is a sports facility booking platform tailored for Bangladesh that allows users to browse turf availability, make time-slot reservations, and manage their bookings. The platform prevents double-booking through concurrent reservation handling.',
       techStack: ['React.js', 'Express.js', 'MongoDB Atlas', 'Node.js'],
       liveUrl: 'https://bdturf.netlify.app/',
       githubUrl: 'https://github.com/Nazmul1211/Turf-Booking-System',
@@ -380,7 +380,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         'Video platform clone built with pure vanilla technologies demonstrating core web fundamentals.',
       fullDescription:
-        'PH Tube is a YouTube-inspired video browsing platform built entirely with vanilla HTML, CSS, and JavaScript—no frameworks or libraries. It demonstrates a deep understanding of core web fundamentals including DOM manipulation, fetch API for dynamic content loading, and responsive CSS layouts without any build tools.',
+        'PH Tube is a YouTube-inspired video browsing platform built entirely with vanilla HTML, CSS, and JavaScript—no frameworks or libraries. It demonstrates a deep understanding of core web APIs and DOM manipulation.',
       techStack: ['HTML5', 'CSS3', 'JavaScript'],
       liveUrl: 'https://tubular-caramel-adaca6.netlify.app/',
       challenges: [
@@ -401,7 +401,7 @@ export const defaultPortfolioData: PortfolioData = {
       title: 'Summer Sale',
       description: "E-commerce promo site with dynamic coupon system. Use code SELL200 for discounts!",
       fullDescription:
-        "Summer Sale is a promotional e-commerce landing page featuring a dynamic product catalog, a coupon code system, and an interactive shopping cart. Built to demonstrate advanced JavaScript event handling, DOM manipulation, and real-time price calculation with discount logic. Use promo code SELL200 to see the discount system in action.",
+        "Summer Sale is a promotional e-commerce landing page featuring a dynamic product catalog, a coupon code system, and an interactive shopping cart. Built to demonstrate advanced JavaScript event handling and DOM manipulation.",
       techStack: ['JavaScript', 'HTML5', 'CSS3', 'Event-Driven Architecture'],
       liveUrl: 'https://jazzy-druid-539c43.netlify.app/',
       challenges: [
