@@ -6,19 +6,32 @@ import styles from './SectionWrapper.module.css';
 interface SectionWrapperProps {
     children: React.ReactNode;
     id: string;
-    title: string;
+    title?: string;
+    kicker?: string;
     subtitle?: string;
     className?: string;
 }
+
+const defaultKickers: Record<string, string> = {
+    skills: 'Technical Stack & Systems',
+    about: 'Background & Engineering Philosophy',
+    projects: 'Featured Production Systems',
+    experience: 'Professional Journey',
+    education: 'Academic Foundation',
+    contact: 'Get In Touch',
+    blog: 'Technical Writings',
+};
 
 export default function SectionWrapper({
     children,
     id,
     title,
+    kicker,
     subtitle,
     className = ''
 }: SectionWrapperProps) {
     const sectionRef = useRef<HTMLElement>(null);
+    const displayKicker = kicker || defaultKickers[id] || title || '';
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -42,11 +55,16 @@ export default function SectionWrapper({
     return (
         <section ref={sectionRef} id={id} className={`${styles.section} ${className}`}>
             <div className={styles.container}>
-                <div className={styles.header}>
-                    <span className={styles.badge}>{`< ${title} />`}</span>
-                    <h2 className={styles.title}>{title}</h2>
-                    {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-                </div>
+                {title && (
+                    <div className={styles.header}>
+                        <div className={styles.kickerBadge}>
+                            <span className={styles.kickerDot}></span>
+                            <span className={styles.kickerText}>{displayKicker}</span>
+                        </div>
+                        <h2 className={styles.title}>{title}</h2>
+                        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+                    </div>
+                )}
                 {children}
             </div>
         </section>

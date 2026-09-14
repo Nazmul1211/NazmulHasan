@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './StickyProjectHeader.module.css';
 
+import { FiArrowLeft, FiExternalLink } from 'react-icons/fi';
+
 interface StickyProjectHeaderProps {
     title: string;
     liveUrl?: string;
@@ -30,14 +32,16 @@ export default function StickyProjectHeader({ title, liveUrl }: StickyProjectHea
             <div className={`container ${styles.inner}`}>
                 <div className={styles.left}>
                     <Link href="/#projects" className={styles.backLink}>
-                        ← Projects
+                        <FiArrowLeft size={14} />
+                        <span>Projects</span>
                     </Link>
                     <span className={styles.divider}>/</span>
                     <h3 className={styles.title}>{title}</h3>
                 </div>
                 {liveUrl && (
                     <a href={liveUrl} target="_blank" rel="noopener noreferrer" className={styles.liveBtn}>
-                        Visit Site ↗
+                        <span>Visit Site</span>
+                        <FiExternalLink size={13} />
                     </a>
                 )}
             </div>

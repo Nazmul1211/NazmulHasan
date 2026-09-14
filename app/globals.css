@@ -8,31 +8,31 @@
   --accent: #8b5cf6; /* Violet 500 */
   --accent-rgb: 139, 92, 246;
 
-  /* Neutral Colors */
-  --background: #030014; /* Deep, rich black-blue */
-  --surface: #0f0b1f; /* Slightly lighter for cards */
-  --surface-hover: #1a162e;
-  --border: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.05);
+  /* Neutral Colors - Obsidian Dark */
+  --background: #090a0f; /* Refined deep obsidian */
+  --surface: #11131b; /* Sleek dark surface */
+  --surface-hover: #181b26;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.06);
   
   /* Text Colors */
-  --foreground: #f3f4f6; /* Gray 100 */
-  --foreground-muted: #9ca3af; /* Gray 400 */
-  --foreground-dim: #6b7280; /* Gray 500 */
+  --foreground: #f8fafc; /* Crisp white */
+  --foreground-muted: #94a3b8; /* Slate 400 */
+  --foreground-dim: #64748b; /* Slate 500 */
 
   /* Status */
   --success: #10b981;
   --error: #ef4444;
 
   /* Spacing & Layout */
-  --radius: 1rem;
+  --radius: 0.85rem;
   --max-width: 1200px;
-  --nav-height: 80px;
+  --nav-height: 72px;
 
   /* Glassmorphism */
-  --glass-bg: rgba(15, 11, 31, 0.7);
-  --glass-blur: 12px;
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-bg: rgba(17, 19, 27, 0.72);
+  --glass-blur: 14px;
+  --glass-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.5);
 
   /* Fonts */
   --font-sans: var(--font-geist-sans, 'Inter', sans-serif);

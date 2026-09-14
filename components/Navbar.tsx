@@ -4,13 +4,17 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './Navbar.module.css';
 import ThemeToggle from './ThemeToggle';
+import { SiGithub } from 'react-icons/si';
+import { FaLinkedin } from 'react-icons/fa6';
+import { FiMail } from 'react-icons/fi';
 
 const navLinks = [
+    { name: 'Projects', href: '#projects' },
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
     { name: 'Experience', href: '#experience' },
     { name: 'Education', href: '#education' },
+    { name: 'Blog', href: '#blog' },
     { name: 'Contact', href: '#contact' },
 ];
 
@@ -56,18 +60,21 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
+        <nav className={`${styles.navbar} ${isScrolled || isOpen ? styles.scrolled : ''}`}>
             {/* Scroll Progress Bar */}
             <div className={styles.progressBar}>
                 <div className={styles.progressFill} style={{ width: `${scrollProgress}%` }} />
             </div>
 
             <div className={`container ${styles.navContext}`}>
-                <Link href="/" className={styles.logo}>
-                    <span className={styles.logoBracket}>&lt;</span>
-                    <span className="text-gradient">nh.dev</span>
-                    <span className={styles.logoBracket}>&nbsp;/&gt;</span>
-                </Link>
+                <div className={styles.logoGroup}>
+                    <Link href="/" className={styles.logo}>
+                        <span className={styles.logoBracket}>&lt;</span>
+                        <span className="text-gradient">nh.dev</span>
+                        <span className={styles.logoBracket}>&nbsp;/&gt;</span>
+                    </Link>
+                    <span className={styles.headerArrow}>&gt;</span>
+                </div>
 
                 {/* Desktop Links */}
                 <div className={styles.navRight}>
@@ -82,7 +89,51 @@ export default function Navbar() {
                             </Link>
                         ))}
                     </div>
+
+                    <div className={styles.navSocials}>
+                        <a
+                            href="https://github.com/nazmul1211"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.navSocialBtn}
+                            aria-label="GitHub"
+                        >
+                            <SiGithub size={16} />
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/nazmulsajjad/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.navSocialBtn}
+                            aria-label="LinkedIn"
+                        >
+                            <FaLinkedin size={16} />
+                        </a>
+                        <a
+                            href="mailto:nazmulhasansajjad@gmail.com"
+                            className={styles.navSocialBtn}
+                            aria-label="Email"
+                        >
+                            <FiMail size={16} />
+                        </a>
+                    </div>
+
                     <ThemeToggle />
+
+                    <a
+                        href="/Nazmul_Hasan_FullStack_Developer_Resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.cvButton}
+                        download
+                    >
+                        <span>Resume</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </a>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -97,16 +148,64 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             <div className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuOpen : ''}`}>
-                {navLinks.map((link) => (
-                    <Link
-                        key={link.name}
-                        href={link.href}
-                        className={`${styles.mobileLink} ${activeSection === link.href.slice(1) ? styles.activeMobileLink : ''}`}
-                        onClick={closeMenu}
+                <div className={styles.mobileLinksContainer}>
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.name}
+                            href={link.href}
+                            className={`${styles.mobileLink} ${activeSection === link.href.slice(1) ? styles.activeMobileLink : ''}`}
+                            onClick={closeMenu}
+                        >
+                            {link.name}
+                        </Link>
+                    ))}
+                </div>
+
+                <div className={styles.mobileDivider} />
+
+                <div className={styles.mobileSocials}>
+                    <a
+                        href="https://github.com/nazmul1211"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.mobileSocialBtn}
+                        aria-label="GitHub"
                     >
-                        {link.name}
-                    </Link>
-                ))}
+                        <SiGithub size={17} />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/nazmulsajjad/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.mobileSocialBtn}
+                        aria-label="LinkedIn"
+                    >
+                        <FaLinkedin size={17} />
+                    </a>
+                    <a
+                        href="mailto:nazmulhasansajjad@gmail.com"
+                        className={styles.mobileSocialBtn}
+                        aria-label="Email"
+                    >
+                        <FiMail size={17} />
+                    </a>
+                </div>
+
+                <a
+                    href="/Nazmul_Hasan_FullStack_Developer_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mobileCvButton}
+                    download
+                    onClick={closeMenu}
+                >
+                    <span>Download Resume</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </a>
                 <div className={styles.mobileTheme}>
                     <ThemeToggle />
                 </div>

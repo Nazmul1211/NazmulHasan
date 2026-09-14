@@ -1,118 +1,95 @@
+import Link from 'next/link';
 import styles from './About.module.css';
 import SectionWrapper from './SectionWrapper';
 import { AboutData, defaultPortfolioData } from '@/data/portfolioData';
+import { LuLightbulb, LuCode, LuUsers, LuRocket } from 'react-icons/lu';
+import { FiArrowRight } from 'react-icons/fi';
 
-const getHobbyIcon = (label: string) => {
-    const norm = label.toLowerCase();
-    if (norm.includes('football') || norm.includes('sports')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <circle cx="12" cy="12" r="10"/>
-                <path d="m12 2-2.5 4.5L5 8.5 7.5 12 5 15.5l4.5 2 2.5 4.5 2.5-4.5 4.5-2-2.5-3.5 2.5-3.5-4.5-2z"/>
-            </svg>
-        );
-    }
-    if (norm.includes('reading') || norm.includes('book')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-            </svg>
-        );
-    }
-    if (norm.includes('travel') || norm.includes('plane')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <path d="m22 2-10 10"/><path d="M22 2 15 22l-4-9-9-4Z"/>
-            </svg>
-        );
-    }
-    if (norm.includes('game') || norm.includes('gaming')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/>
-                <line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/>
-                <rect width="20" height="12" x="2" y="6" rx="3"/>
-            </svg>
-        );
-    }
-    if (norm.includes('music') || norm.includes('song')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-            </svg>
-        );
-    }
-    if (norm.includes('open source') || norm.includes('code') || norm.includes('git')) {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-                <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/>
-                <path d="M6 9a9 9 0 0 1 9 9"/>
-            </svg>
-        );
-    }
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={styles.hobbyIcon}>
-            <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
-        </svg>
-    );
-};
-
-const formatText = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-            return (
-                <span key={index} className="highlight">
-                    {part.slice(2, -2)}
-                </span>
-            );
-        }
-        return part;
-    });
-};
+const aboutPillars = [
+    {
+        icon: LuLightbulb,
+        color: '#8b5cf6',
+        bg: 'rgba(139, 92, 246, 0.12)',
+        title: 'Product Thinking',
+        description: 'I enjoy turning ideas into real products that solve genuine problems.',
+    },
+    {
+        icon: LuCode,
+        color: '#6366f1',
+        bg: 'rgba(99, 102, 241, 0.12)',
+        title: 'Clean & Scalable Code',
+        description: 'Write maintainable, testable and scalable applications.',
+    },
+    {
+        icon: LuUsers,
+        color: '#3b82f6',
+        bg: 'rgba(59, 130, 246, 0.12)',
+        title: 'User Focused',
+        description: 'Build products that create real value for users.',
+    },
+    {
+        icon: LuRocket,
+        color: '#a855f7',
+        bg: 'rgba(168, 85, 247, 0.12)',
+        title: 'Continuous Learning',
+        description: 'Always learning new technologies and improving every day.',
+    },
+];
 
 export default function About({ data }: { data?: AboutData }) {
     const about = data || defaultPortfolioData.about;
-    const paragraphs = about.paragraphs || [];
+    const cleanText = (str: string) => str.replace(/\*\*/g, '');
+    const paragraphs = about.paragraphs?.map(cleanText) || [
+        "I am a Computer Science graduate and Full-Stack Software Engineer with strong foundations in software architecture, database engineering, and modern web systems. Rather than staying confined to basic tutorial stacks, I learned by engineering, deploying, and operating real-world products from scratch.",
+        "Over the past several years, I have developed and maintained 10+ production applications serving 30,000+ active users and handling over 100,000+ monthly visits. My engineering toolkit spans TypeScript, Next.js, Node.js, relational databases (PostgreSQL, Prisma), distributed caching, and cloud infrastructure.",
+        "I bring rigorous CS fundamentals (algorithms, relational schema design, system architecture) coupled with proven end-to-end product delivery into a high-impact engineering team."
+    ];
 
     return (
-        <SectionWrapper id="about" title="About Me">
-            <div className={styles.container}>
-                {/* About Text */}
-                <div className={styles.aboutText}>
-                    {paragraphs.map((p, i) => (
-                        <p key={i} className={i === 0 ? styles.leadParagraph : styles.paragraph}>
-                            {formatText(p)}
-                        </p>
-                    ))}
+        <SectionWrapper
+            id="about"
+            kicker="About Me"
+            title="More than just code"
+            subtitle="Bridging Computer Science foundations with scalable full-stack product execution."
+        >
+            <div className={styles.splitGrid}>
+                {/* Left Column: Story + Action */}
+                <div className={styles.leftCol}>
+                    <p className={styles.storyText}>{paragraphs[0]}</p>
+                    {paragraphs[1] && (
+                        <p className={styles.secondaryText}>{paragraphs[1]}</p>
+                    )}
+                    {paragraphs[2] && (
+                        <p className={styles.secondaryText}>{paragraphs[2]}</p>
+                    )}
+
+                    <div className={styles.actionRow}>
+                        <Link href="#contact" className={styles.knowMeBtn}>
+                            <span>Get to Know Me</span>
+                            <FiArrowRight size={15} />
+                        </Link>
+                    </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className={styles.statsGrid}>
-                    {about.stats && about.stats.map((stat, i) => (
-                        <div key={i} className={styles.statCard}>
-                            <span className={styles.statValue}>{stat.value}</span>
-                            <span className={styles.statLabel}>{stat.label}</span>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Hobbies / Beyond Code */}
-                <div className={styles.hobbiesSection}>
-                    <h3 className={styles.hobbiesTitle}>Beyond the Code</h3>
-                    <p className={styles.hobbiesSubtext}>
-                        When I&apos;m not building apps, you&apos;ll find me:
-                    </p>
-                    <div className={styles.hobbiesGrid}>
-                        {about.hobbies && about.hobbies.map((hobby, i) => (
-                            <div key={i} className={styles.hobbyCard}>
-                                <div className={styles.iconContainer}>
-                                    {getHobbyIcon(hobby.label)}
+                {/* Right Column: 2x2 Pillars Grid */}
+                <div className={styles.rightCol}>
+                    <div className={styles.pillarsGrid}>
+                        {aboutPillars.map((item, idx) => {
+                            const IconComp = item.icon;
+                            return (
+                                <div key={idx} className={styles.pillarCard}>
+                                    <div className={styles.pillarIconBox} style={{ backgroundColor: item.bg, color: item.color }}>
+                                        <IconComp size={22} />
+                                    </div>
+                                    <h4 className={styles.pillarTitle}>{item.title}</h4>
+                                    <p className={styles.pillarDesc}>{item.description}</p>
                                 </div>
-                                <span className={styles.hobbyLabel}>{hobby.label}</span>
-                            </div>
-                        ))}
+                            );
+                        })}
+                    </div>
+
+                    <div className={styles.accentNote}>
+                        <span>Better Developers Build a Brighter Tomorrow</span>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import styles from './post.module.css';
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -46,7 +47,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className={styles.hero}>
                 <div className={styles.container}>
                     <Link href="/blog" className={styles.backLink}>
-                        ← Back to Blog
+                        <FiArrowLeft size={16} />
+                        <span>Back to Blog</span>
                     </Link>
                     <div className={styles.meta}>
                         <span className={styles.date}>{post.date}</span>
@@ -82,12 +84,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <div className={styles.author}>
                     <div className={styles.authorImage}>
-                        <Image src="/nazmulHasan.jpg" alt="Nazmul Hasan" width={60} height={60} />
+                        <Image src="/nazmulHasan.jpg" alt="Nazmul Hasan" width={64} height={64} />
                     </div>
                     <div className={styles.authorInfo}>
                         <p className={styles.writtenBy}>Written by</p>
                         <h3 className={styles.authorName}>Nazmul Hasan</h3>
-                        <p className={styles.authorBio}>Software Engineer & Entrepreneur</p>
+                        <p className={styles.authorBio}>Full-Stack Software Engineer & CS Graduate</p>
                     </div>
                 </div>
             </div>

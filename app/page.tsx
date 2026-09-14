@@ -37,9 +37,9 @@ export default async function Home() {
     return (
         <>
             <Hero data={data.hero} />
+            <Projects data={data.projects} />
             <About data={data.about} />
             <Skills data={data.skills} />
-            <Projects data={data.projects} />
             <Experience data={data.experience} />
             <Education data={data.education} />
             <Blog />

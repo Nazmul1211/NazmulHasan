@@ -1,177 +1,135 @@
-.container {
-    max-width: 900px;
-    margin: 0 auto;
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
 }
 
-.aboutText {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin-bottom: 3.5rem;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.leadParagraph {
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.75;
-    color: var(--foreground);
+.storyText {
+  font-size: 1.15rem;
+  color: var(--foreground);
+  line-height: 1.7;
+  font-weight: 500;
 }
 
-.paragraph {
-    font-size: 1.05rem;
-    color: var(--foreground-muted);
-    line-height: 1.8;
+.secondaryText {
+  font-size: 0.96rem;
+  color: var(--foreground-muted);
+  line-height: 1.7;
 }
 
-:global(.highlight) {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
+.actionRow {
+  margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
-    .aboutText {
-        text-align: center;
-    }
+.knowMeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 9999px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
-/* Stats Grid */
-.statsGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 4rem;
+.knowMeBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
 }
 
-@media (min-width: 640px) {
-    .statsGrid { grid-template-columns: repeat(4, 1fr); }
+/* Right Column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.statCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    transition: all 0.3s ease;
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
 }
 
-.statCard:hover {
-    transform: translateY(-5px);
-    border-color: rgba(99, 102, 241, 0.3);
+.pillarCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
 }
 
-.statValue {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
+.pillarCard:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.35);
 }
 
-.statLabel {
-    font-size: 0.9rem;
-    color: var(--foreground-muted);
+[data-theme="light"] .pillarCard:hover {
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+}
+
+.pillarIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.85rem;
+}
+
+.pillarTitle {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.pillarDesc {
+  font-size: 0.82rem;
+  color: var(--foreground-muted);
+  line-height: 1.55;
+}
+
+.accentNote {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--foreground-dim);
+  font-style: italic;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .splitGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pillarsGrid {
+    grid-template-columns: 1fr;
+  }
+  .accentNote {
     text-align: center;
-    margin-top: 0.5rem;
-}
-
-/* Hobbies / Beyond Code */
-.hobbiesSection {
-    padding-top: 3rem;
-    border-top: 1px solid var(--glass-border);
-    text-align: center;
-}
-
-.hobbiesTitle {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--foreground);
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.hobbiesSubtext {
-    font-size: 1rem;
-    color: var(--foreground-muted);
-    margin-bottom: 1.75rem;
-}
-
-.hobbiesGrid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    max-width: 650px;
-    margin: 0 auto;
-}
-
-.hobbyCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1.1rem 0.75rem;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    transition: all 0.3s ease;
-    cursor: default;
-    min-width: 95px;
-    flex: 1 1 95px;
-    max-width: 110px;
-}
-
-.hobbyCard:hover {
-    transform: translateY(-6px) scale(1.05);
-    border-color: rgba(99, 102, 241, 0.35);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
-}
-
-.iconContainer {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(99, 102, 241, 0.06);
-    border: 1px solid rgba(99, 102, 241, 0.1);
-    transition: all 0.3s ease;
-}
-
-.hobbyIcon {
-    color: var(--primary);
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.hobbyCard:hover .iconContainer {
-    background: rgba(99, 102, 241, 0.12);
-    border-color: rgba(99, 102, 241, 0.3);
-}
-
-.hobbyCard:hover .hobbyIcon {
-    transform: scale(1.1);
-    color: var(--secondary);
-}
-
-.hobbyLabel {
-    font-size: 0.78rem;
-    color: var(--foreground-muted);
-    font-weight: 500;
-    text-align: center;
+  }
 }

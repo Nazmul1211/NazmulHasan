@@ -9,6 +9,7 @@ interface ButtonProps {
     className?: string;
     target?: string;
     rel?: string;
+    download?: boolean | string;
 }
 
 export default function Button({
@@ -18,13 +19,14 @@ export default function Button({
     onClick,
     className = '',
     target,
-    rel
+    rel,
+    download,
 }: ButtonProps) {
     const classNames = `${styles.button} ${styles[variant]} ${className}`;
 
     if (href) {
         return (
-            <Link href={href} className={classNames} target={target} rel={rel}>
+            <Link href={href} className={classNames} target={target} rel={rel} download={download}>
                 {children}
             </Link>
         );

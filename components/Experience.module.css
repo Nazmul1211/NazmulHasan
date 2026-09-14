@@ -1,111 +1,257 @@
-.timeline {
+.headerActionRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -2.5rem;
+  margin-bottom: 2rem;
+}
+
+.viewResumeBtn {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.viewResumeBtn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.timelineContainer {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.spineLine {
+  position: absolute;
+  left: 11px;
+  top: 2.75rem;
+  bottom: 3.5rem;
+  width: 2px;
+  background: linear-gradient(180deg, var(--primary) 0%, rgba(99, 102, 241, 0.5) 60%, rgba(99, 102, 241, 0.12) 100%);
+  z-index: 1;
+}
+
+.timelineList {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  position: relative;
-  padding-left: 2rem;
 }
 
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 2px;
-  background: var(--glass-border);
-}
-
-.item {
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
   position: relative;
 }
 
-.item::before {
-  content: '';
-  position: absolute;
-  left: -2.35rem;
-  top: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  background: var(--primary);
-  border-radius: 50%;
-  border: 4px solid var(--background);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+.nodeWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+  flex-shrink: 0;
+  position: relative;
   z-index: 2;
 }
 
-.item:hover::before {
-  transform: scale(1.35);
-  background: var(--secondary);
-  box-shadow: 0 0 15px 4px rgba(236, 72, 153, 0.4);
+.nodeGlow {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--background);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-  padding: 2rem;
-  border-radius: var(--radius);
+.nodeCore {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  transition: transform 0.3s ease;
+}
+
+.nodeConnector {
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.8), rgba(99, 102, 241, 0.2));
+  flex-shrink: 0;
   transition: all 0.3s ease;
 }
 
-.card:hover {
-  transform: translateX(10px);
-  border-color: rgba(255, 255, 255, 0.1);
+.timelineItem:hover .nodeGlow {
+  transform: scale(1.22);
+  border-color: #818cf8;
+  box-shadow: 0 0 22px rgba(99, 102, 241, 0.75);
 }
 
-.header {
+.timelineItem:hover .nodeCore {
+  transform: scale(1.15);
+}
+
+.timelineItem:hover .nodeConnector {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+}
+
+.card {
+  flex: 1;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .card:hover {
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+}
+
+.cardTop {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.15rem;
 }
 
-.role {
-  font-size: 1.5rem;
+.roleHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wpIcon {
+  font-family: serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #21759b;
+}
+
+.roleTitle {
+  font-size: 1.18rem;
   font-weight: 700;
   color: var(--foreground);
+  letter-spacing: -0.015em;
+  margin-bottom: 0.2rem;
 }
 
-.company {
-  color: var(--primary);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+.companyTitle {
+  font-size: 0.85rem;
+  color: var(--foreground-muted);
 }
 
-.period {
+.periodBadge {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  color: var(--foreground-muted);
-  padding: 0.25rem 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
+  font-size: 0.76rem;
+  color: var(--foreground-dim);
+  padding: 0.25rem 0.7rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  white-space: nowrap;
 }
 
-.description {
-  list-style-type: none;
-  margin-top: 1rem;
+[data-theme="light"] .periodBadge {
+  background: rgba(0, 0, 0, 0.03);
 }
 
-.description li {
+.bulletList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.bulletList li {
   position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.5rem;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
   color: var(--foreground-muted);
+  line-height: 1.6;
 }
 
-.description li::before {
-  content: '▹';
+.bulletList li::before {
+  content: '•';
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--primary);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
-  .header {
+  .headerActionRow {
+    justify-content: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+  .cardTop {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+  .roleHeader {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .spineLine {
+    left: 9px;
+    top: 2.25rem;
+    bottom: 2.5rem;
+  }
+  .nodeWrapper {
+    margin-top: 1.5rem;
+  }
+  .nodeGlow {
+    width: 20px;
+    height: 20px;
+  }
+  .nodeCore {
+    width: 6px;
+    height: 6px;
+  }
+  .nodeConnector {
+    width: 12px;
+  }
+  .card {
+    padding: 1.25rem 1.15rem;
   }
 }

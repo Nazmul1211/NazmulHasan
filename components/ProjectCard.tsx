@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './ProjectCard.module.css';
+import { FiArrowRight } from 'react-icons/fi';
 
 interface ProjectProps {
     slug: string;
     title: string;
+    category?: string;
+    image?: string;
     description: string;
     techStack: string[];
     liveUrl?: string;
@@ -14,57 +17,86 @@ interface ProjectProps {
     featured?: boolean;
 }
 
-export default function ProjectCard({ slug, title, description, techStack, liveUrl, githubUrl, featured }: ProjectProps) {
+export default function ProjectCard({
+    slug,
+    title,
+    category,
+    image,
+    description,
+    techStack,
+    liveUrl,
+    githubUrl,
+    featured,
+}: ProjectProps) {
     const [imageError, setImageError] = useState(false);
 
-    // Generate Microlink screenshot URL
-    const screenshotUrl = liveUrl
+    // Fallback category if not specified
+    const displayCategory = category || (featured ? 'Featured System' : 'Web Application');
+
+    // Image source: local image if specified, otherwise Microlink screenshot
+    const displayImage = image || (liveUrl
         ? `https://api.microlink.io/?url=${encodeURIComponent(liveUrl)}&screenshot=true&meta=false&embed=screenshot.url`
-        : null;
+        : null);
 
     return (
-        <article className={`${styles.card} ${featured ? styles.featured : ''}`}>
-            {featured && <div className={styles.featuredBadge}>⭐ Featured</div>}
-            <div className={styles.imageContainer}>
-                {screenshotUrl && !imageError ? (
+        <article className={styles.card}>
+            {/* Top Bar over Screenshot: Category & Live Badge */}
+            <div className={styles.imageWrapper}>
+                <div className={styles.badgeRow}>
+                    <span className={styles.categoryBadge}>{displayCategory}</span>
+                    {liveUrl && (
+                        <span className={styles.liveBadge}>
+                            <span className={styles.liveDot} />
+                            Live
+                        </span>
+                    )}
+                </div>
+
+                {/* Image Screenshot or Fallback */}
+                {displayImage && !imageError ? (
                     <img
-                        src={screenshotUrl}
+                        src={displayImage}
                         alt={`${title} preview`}
                         className={styles.screenshot}
                         onError={() => setImageError(true)}
                         loading="lazy"
                     />
                 ) : (
-                    <div className={styles.imagePlaceholder}>
-                        <span className={styles.placeholderInitials}>{title.substring(0, 2).toUpperCase()}</span>
+                    <div className={styles.fallbackPreview}>
+                        <div className={styles.fallbackPattern} />
+                        <span className={styles.fallbackMonogram}>{title.slice(0, 2).toUpperCase()}</span>
                     </div>
                 )}
             </div>
+
+            {/* Content Area */}
             <div className={styles.content}>
-                <h3 className={styles.title}>{title}</h3>
-                <p className={styles.description}>{description}</p>
-                <div className={styles.tags}>
-                    {techStack.slice(0, 4).map((tag) => (
-                        <span key={tag} className={styles.tag}>{tag}</span>
-                    ))}
-                    {techStack.length > 4 && (
-                        <span className={styles.tagMore}>+{techStack.length - 4}</span>
-                    )}
-                </div>
-                <div className={styles.links}>
-                    <Link href={`/projects/${slug}`} className={`${styles.link} ${styles.linkPrimary}`}>
-                        View Details <span>→</span>
+                <h3 className={styles.title}>
+                    <Link href={`/projects/${slug}`} className={styles.titleLink}>
+                        {title}
                     </Link>
-                    {liveUrl && (
-                        <Link href={liveUrl} target="_blank" rel="noopener noreferrer" className={`${styles.link} ${styles.linkSecondary}`}>
-                            Live <span>↗</span>
-                        </Link>
-                    )}
-                    {githubUrl && githubUrl !== '#' && (
-                        <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className={`${styles.link} ${styles.linkSecondary}`}>
-                            GitHub <span>↗</span>
-                        </Link>
-                    )}
+                </h3>
+
+                <p className={styles.description}>{description}</p>
+
+                {/* Footer Row: Tags & Arrow Link Button */}
+                <div className={styles.cardFooter}>
+                    <div className={styles.tags}>
+                        {techStack.slice(0, 3).map((tag) => (
+                            <span key={tag} className={styles.tag}>{tag}</span>
+                        ))}
+                        {techStack.length > 3 && (
+                            <span className={styles.tagMore}>+{techStack.length - 3}</span>
+                        )}
+                    </div>
+
+                    <Link
+                        href={`/projects/${slug}`}
+                        className={styles.circleArrowBtn}
+                        aria-label={`View ${title} case study`}
+                    >
+                        <FiArrowRight size={15} />
+                    </Link>
                 </div>
             </div>
         </article>

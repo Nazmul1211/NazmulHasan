@@ -1,92 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import styles from './Contact.module.css';
 import SectionWrapper from './SectionWrapper';
 import { ContactData, defaultPortfolioData } from '@/data/portfolioData';
+import { SiGithub } from 'react-icons/si';
+import { FaLinkedin } from 'react-icons/fa6';
+import { FiMail, FiSend, FiDownload, FiArrowRight, FiPhone } from 'react-icons/fi';
 
 export default function Contact({ data }: { data?: ContactData }) {
     const contact = data || defaultPortfolioData.contact;
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [showForm, setShowForm] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | null }>({ message: '', type: null });
+    const formRef = useRef<HTMLDivElement>(null);
 
-    // Auto-dismiss toast notification after 5 seconds
-    useEffect(() => {
-        if (toast.type) {
-            const timer = setTimeout(() => {
-                setToast({ message: '', type: null });
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [toast.type]);
-
-    // Helper to get username/handle from GitHub URL
-    const getGithubHandle = (url: string) => {
-        try {
-            const parts = url.replace(/\/$/, '').split('/');
-            return `@${parts[parts.length - 1]}`;
-        } catch {
-            return '@GitHub';
-        }
-    };
-
-    // Helper to get name from LinkedIn URL
-    const getLinkedInName = (url: string) => {
-        try {
-            const parts = url.replace(/\/$/, '').split('/');
-            const name = parts[parts.length - 1];
-            if (name.includes('in-')) {
-                return name.split('in-')[1]?.replace(/-/g, ' ') || 'LinkedIn Profile';
+    const toggleForm = () => {
+        setShowForm((prev) => !prev);
+        setTimeout(() => {
+            if (formRef.current) {
+                formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const nameInput = formRef.current.querySelector('input[name="name"]') as HTMLInputElement;
+                if (nameInput) nameInput.focus();
             }
-            return name.replace(/-/g, ' ');
-        } catch {
-            return 'LinkedIn Profile';
-        }
+        }, 100);
     };
-
-    const contactCards = [
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-            ),
-            label: 'GitHub',
-            value: getGithubHandle(contact.github),
-            href: contact.github,
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                </svg>
-            ),
-            label: 'LinkedIn',
-            value: getLinkedInName(contact.linkedin),
-            href: contact.linkedin,
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                </svg>
-            ),
-            label: 'Email',
-            value: contact.email,
-            href: `mailto:${contact.email}`,
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/>
-                </svg>
-            ),
-            label: 'Phone',
-            value: contact.phone,
-            href: `tel:${contact.phone}`,
-        },
-    ];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -100,8 +39,8 @@ export default function Contact({ data }: { data?: ContactData }) {
                     name: formData.name,
                     email: formData.email,
                     subject: `Portfolio Contact from ${formData.name}`,
-                    message: formData.message
-                })
+                    message: formData.message,
+                }),
             });
 
             if (res.ok) {
@@ -109,21 +48,21 @@ export default function Contact({ data }: { data?: ContactData }) {
                 setFormData({ name: '', email: '', message: '' });
                 setToast({
                     message: 'Message Sent Successfully! Nazmul will get back to you shortly.',
-                    type: 'success'
+                    type: 'success',
                 });
             } else {
                 setStatus('error');
                 setToast({
-                    message: 'Failed to send message. Please try again later.',
-                    type: 'error'
+                    message: 'Failed to send message. Please email directly.',
+                    type: 'error',
                 });
             }
         } catch (err) {
             console.error(err);
             setStatus('error');
             setToast({
-                message: 'Connection error. Please check your network and try again.',
-                type: 'error'
+                message: 'Connection error. Please check your network or email directly.',
+                type: 'error',
             });
         }
 
@@ -131,68 +70,250 @@ export default function Contact({ data }: { data?: ContactData }) {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     return (
-        <SectionWrapper id="contact" title="Get In Touch">
+        <SectionWrapper id="contact">
             <div className={styles.container}>
-                <div className={styles.content}>
-                    <div className={styles.info}>
-                        <p className={styles.text}>{contact.contactText}</p>
 
-                        <div className={styles.socials}>
-                            {contactCards.map((card, i) => (
-                                <a
-                                    key={i}
-                                    href={card.href}
-                                    target={card.href.startsWith('http') ? '_blank' : undefined}
-                                    rel={card.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                    className={styles.socialCard}
-                                >
-                                    <div className={styles.socialIcon}>{card.icon}</div>
-                                    <div className={styles.socialInfo}>
-                                        <span className={styles.socialLabel}>{card.label}</span>
-                                        <span className={styles.socialHandle}>{card.value}</span>
-                                    </div>
-                                </a>
-                            ))}
+                {/* Banner Card matching Image 1 accurately */}
+                <div className={styles.banner}>
+                    {/* Background star dots */}
+                    <div className={styles.starsBg} />
+
+                    {/* Left Column: Headline, Bio & CTAs */}
+                    <div className={styles.bannerLeft}>
+                        <div className={styles.bannerKicker}>
+                            <span>LET&apos;S CONNECT</span>
+                        </div>
+                        <h3 className={styles.bannerTitle}>
+                            Let&apos;s build something amazing together.
+                        </h3>
+                        <p className={styles.bannerText}>
+                            I&apos;m open to software engineering opportunities, technical collaborations, or just a friendly chat about technology.
+                        </p>
+
+                        <div className={styles.bannerCtas}>
+                            <button
+                                type="button"
+                                className={styles.primaryCta}
+                                onClick={toggleForm}
+                            >
+                                <FiSend size={15} />
+                                <span>Send a Message</span>
+                                <FiArrowRight size={14} />
+                            </button>
+
+                            <a
+                                href="/Nazmul_Hasan_FullStack_Developer_Resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                download
+                                className={styles.secondaryCta}
+                            >
+                                <span>Download Resume</span>
+                                <FiDownload size={15} />
+                            </a>
                         </div>
                     </div>
 
-                    <form className={styles.form} onSubmit={handleSubmit}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="name" className={styles.label}>Name</label>
-                            <input type="text" id="name" name="name" className={styles.input} value={formData.name} onChange={handleChange} required />
+                    {/* Middle Column: 4 Stacked Contact Channels */}
+                    <div className={styles.bannerChannels}>
+                        <a href={`mailto:${contact.email}`} className={styles.channelRow}>
+                            <div className={styles.channelIconPurple}>
+                                <FiMail size={16} />
+                            </div>
+                            <span className={styles.channelText}>{contact.email}</span>
+                        </a>
+
+                        <a
+                            href={contact.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.channelRow}
+                        >
+                            <div className={styles.channelIconBlue}>
+                                <FaLinkedin size={15} />
+                            </div>
+                            <span className={styles.channelText}>linkedin.com/in/nazmulsajjad</span>
+                        </a>
+
+                        <a
+                            href={contact.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.channelRow}
+                        >
+                            <div className={styles.channelIconDark}>
+                                <SiGithub size={16} />
+                            </div>
+                            <span className={styles.channelText}>github.com/nazmul1211</span>
+                        </a>
+
+                        <a
+                            href={`tel:${contact.phone || '+8801867421211'}`}
+                            className={styles.channelRow}
+                        >
+                            <div className={styles.channelIconGreen}>
+                                <FiPhone size={15} />
+                            </div>
+                            <span className={styles.channelText}>
+                                {contact.phone === '+8801867421211' ? '+880 1867-421211' : (contact.phone || '+880 1867-421211')}
+                            </span>
+                        </a>
+                    </div>
+
+                    {/* Right Column: Partial Luminous Rising Earth & Handwritten Callout */}
+                    <div className={styles.bannerRight}>
+                        <div className={styles.scriptCallout}>
+                            <div className={styles.scriptText}>
+                                <span>Open to</span>
+                                <span>new opportunities</span>
+                                <span>worldwide!</span>
+                            </div>
+                            <svg className={styles.scriptArrow} width="40" height="42" viewBox="0 0 40 42" fill="none">
+                                <path
+                                    d="M10 6 C 24 16, 28 26, 18 36 M 13 31 L 18 37 L 24 32"
+                                    stroke="#93c5fd"
+                                    strokeWidth="1.6"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
                         </div>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="email" className={styles.label}>Email</label>
-                            <input type="email" id="email" name="email" className={styles.input} value={formData.email} onChange={handleChange} required />
+
+                        {/* Partial Glowing Earth Globe */}
+                        <div className={styles.earthContainer}>
+                            <div className={styles.earthAtmosphereGlow} />
+                            <div className={styles.earthSphere}>
+                                <svg className={styles.earthSvg} viewBox="0 0 240 240" fill="none">
+                                    <defs>
+                                        <radialGradient id="earthGrad" cx="30%" cy="30%" r="70%">
+                                            <stop offset="0%" stopColor="#38bdf8" />
+                                            <stop offset="45%" stopColor="#1d4ed8" />
+                                            <stop offset="80%" stopColor="#0f172a" />
+                                            <stop offset="100%" stopColor="#020617" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="120" cy="120" r="110" fill="url(#earthGrad)" />
+                                    {/* Grids */}
+                                    <ellipse cx="120" cy="120" rx="110" ry="35" stroke="rgba(147, 197, 253, 0.35)" strokeWidth="1" strokeDasharray="3 3" />
+                                    <ellipse cx="120" cy="120" rx="110" ry="75" stroke="rgba(147, 197, 253, 0.45)" strokeWidth="1" />
+                                    <ellipse cx="120" cy="120" rx="35" ry="110" stroke="rgba(147, 197, 253, 0.35)" strokeWidth="1" strokeDasharray="3 3" />
+                                    <ellipse cx="120" cy="120" rx="75" ry="110" stroke="rgba(147, 197, 253, 0.4)" strokeWidth="1" />
+                                    <line x1="120" y1="10" x2="120" y2="230" stroke="rgba(147, 197, 253, 0.5)" strokeWidth="1.2" />
+                                    <line x1="10" y1="120" x2="230" y2="120" stroke="rgba(147, 197, 253, 0.5)" strokeWidth="1.2" />
+
+                                    {/* Continents & Bangladesh location */}
+                                    <path d="M100 80 Q125 70 135 90 Q145 110 125 130 Q105 125 100 80 Z" fill="rgba(56, 189, 248, 0.35)" />
+                                    <path d="M145 95 Q165 90 160 115 Q150 130 140 115 Z" fill="rgba(56, 189, 248, 0.28)" />
+                                    <circle cx="138" cy="100" r="4" fill="#10b981" />
+                                    <circle cx="138" cy="100" r="10" stroke="#10b981" strokeWidth="1.5" opacity="0.7">
+                                        <animate attributeName="r" values="4;14" dur="2s" repeatCount="indefinite" />
+                                        <animate attributeName="opacity" values="0.8;0" dur="2s" repeatCount="indefinite" />
+                                    </circle>
+                                    <circle cx="120" cy="120" r="110" stroke="rgba(147, 197, 253, 0.65)" strokeWidth="1.5" />
+                                </svg>
+                            </div>
                         </div>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="message" className={styles.label}>Message</label>
-                            <textarea id="message" name="message" className={styles.textarea} value={formData.message} onChange={handleChange} required></textarea>
-                        </div>
-                        <button type="submit" className={styles.submitButton} disabled={status === 'sending'}>
-                            {status === 'sending' ? 'Sending Message...' : 'Send Message'}
-                        </button>
-                    </form>
+                    </div>
                 </div>
+
+                {/* Interactive Direct Message Form (Expandable) */}
+                {showForm && (
+                    <div className={styles.formSection} ref={formRef}>
+                        <div className={styles.formCard}>
+                            <div className={styles.formHeader}>
+                                <div className={styles.formBadge}>DIRECT MESSAGE</div>
+                                <h4 className={styles.formTitle}>Send a Quick Message</h4>
+                                <p className={styles.formSubtitle}>
+                                    Responses typically within 24 hours. Your message will be securely delivered.
+                                </p>
+                            </div>
+
+                            <form className={styles.form} onSubmit={handleSubmit}>
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="name" className={styles.label}>
+                                            Your Name <span className={styles.req}>*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            className={styles.input}
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            placeholder="Alex Mercer"
+                                            required
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="email" className={styles.label}>
+                                            Email Address <span className={styles.req}>*</span>
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            className={styles.input}
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="alex@company.com"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="message" className={styles.label}>
+                                        Message <span className={styles.req}>*</span>
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        className={styles.textarea}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        placeholder="Tell me about your team, product idea, or project..."
+                                        rows={4}
+                                        required
+                                    />
+                                </div>
+
+                                <div className={styles.formSubmitRow}>
+                                    <button
+                                        type="submit"
+                                        className={styles.submitButton}
+                                        disabled={status === 'sending'}
+                                    >
+                                        {status === 'sending' ? (
+                                            <>
+                                                <span className={styles.spinner} />
+                                                <span>Sending message...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <FiSend size={15} />
+                                                <span>Send Message</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
             </div>
 
-            {/* Premium Animated Toast Notification */}
+            {/* Toast Notification */}
             {toast.type && (
                 <div className={`${styles.toast} ${styles[toast.type]}`}>
-                    <div className={styles.toastIcon}>
-                        {toast.type === 'success' ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                        ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m18 6-12 12M6 6l12 12"/></svg>
-                        )}
-                    </div>
                     <div className={styles.toastMessage}>{toast.message}</div>
                     <button className={styles.toastClose} onClick={() => setToast({ message: '', type: null })}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        ✕
                     </button>
                 </div>
             )}

@@ -1,65 +1,117 @@
-.educationSection {
-  padding: 4rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .card {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 2rem;
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: all 0.3s ease;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
 }
 
 .card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.35);
 }
 
-.schoolInfo {
-  flex: 1;
+[data-theme="light"] .card:hover {
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.iconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateBadge,
+.courseworkHeaderLabel {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--foreground-dim);
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+}
+
+[data-theme="light"] .dateBadge,
+[data-theme="light"] .courseworkHeaderLabel {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.degreeTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.015em;
+  margin-bottom: 0.35rem;
 }
 
 .schoolName {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--foreground);
-  margin-bottom: 0.5rem;
-}
-
-.degree {
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   color: var(--primary);
-  margin-bottom: 0.5rem;
   font-weight: 600;
+  margin-bottom: 0.35rem;
 }
 
 .details {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--foreground-muted);
   font-family: var(--font-mono);
 }
 
-.date {
+.courseworkPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.coursePill {
   font-family: var(--font-mono);
+  font-size: 0.74rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   color: var(--foreground-muted);
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 2rem;
-  white-space: nowrap;
+  font-weight: 500;
+}
+
+[data-theme="light"] .coursePill {
+  background: rgba(0, 0, 0, 0.03);
 }
 
 @media (max-width: 768px) {
-  .card {
-    flex-direction: column;
-    gap: 1rem;
+  .splitGrid {
+    grid-template-columns: 1fr;
   }
 }
