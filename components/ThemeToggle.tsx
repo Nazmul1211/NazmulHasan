@@ -7,11 +7,14 @@ export default function ThemeToggle() {
     const [isDark, setIsDark] = useState(true);
 
     useEffect(() => {
-        // Check if user has a saved preference
+        // Check if user has a saved preference, otherwise default to dark mode
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             setIsDark(savedTheme === 'dark');
             document.documentElement.setAttribute('data-theme', savedTheme);
+        } else {
+            setIsDark(true);
+            document.documentElement.setAttribute('data-theme', 'dark');
         }
     }, []);
 

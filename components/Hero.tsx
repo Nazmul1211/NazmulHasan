@@ -11,26 +11,17 @@ import {
     SiPrisma,
     SiMongodb,
     SiDocker,
-    SiVercel,
-    SiCloudflare,
-    SiGithub,
-    SiX,
 } from 'react-icons/si';
-import { FaLinkedin } from 'react-icons/fa6';
 import {
-    LuLightbulb,
-    LuCode,
-    LuLayers,
-    LuRocket,
-    LuCpu,
     LuBox,
     LuUsers,
     LuChartBar,
     LuZap,
 } from 'react-icons/lu';
-import { FiMail, FiMapPin, FiArrowRight, FiDownload } from 'react-icons/fi';
+import { FiMapPin, FiArrowRight, FiDownload, FiChevronDown } from 'react-icons/fi';
 
-const trustedTechnologies = [
+// Curated 8 core technologies — focused and professional without overflowing
+const coreTechnologies = [
     { name: 'Next.js', icon: SiNextdotjs, color: 'currentColor' },
     { name: 'React', icon: SiReact, color: '#61DAFB' },
     { name: 'Node.js', icon: SiNodedotjs, color: '#5FA04E' },
@@ -39,16 +30,6 @@ const trustedTechnologies = [
     { name: 'Prisma', icon: SiPrisma, color: 'currentColor' },
     { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
     { name: 'Docker', icon: SiDocker, color: '#2496ED' },
-    { name: 'Vercel', icon: SiVercel, color: 'currentColor' },
-    { name: 'Cloudflare', icon: SiCloudflare, color: '#F38020' },
-];
-
-const processSteps = [
-    { icon: LuLightbulb, label: 'Ideas', color: '#8b5cf6' },
-    { icon: LuCode, label: 'Code', color: '#6366f1' },
-    { icon: LuLayers, label: 'Build', color: '#3b82f6' },
-    { icon: LuRocket, label: 'Deploy', color: '#06b6d4' },
-    { icon: LuCpu, label: 'Scale', color: '#10b981' },
 ];
 
 export default function Hero({ data }: { data?: HeroData }) {
@@ -58,7 +39,7 @@ export default function Hero({ data }: { data?: HeroData }) {
         <section id="hero" className={styles.hero}>
             <div className={`container ${styles.container}`}>
                 <div className={styles.mainGrid}>
-                    {/* Left Column: Headline, Bio & CTAs */}
+                    {/* Left Column: Headline, Bio & Primary CTAs */}
                     <div className={styles.textContent}>
                         {/* Dual Status Chips */}
                         <div className={styles.chipRow}>
@@ -87,71 +68,50 @@ export default function Hero({ data }: { data?: HeroData }) {
                         </div>
 
                         <p className={styles.description}>
-                            Computer Science graduate building production-ready web applications, SaaS products, and backend systems with real users. Passionate about solving real problems with clean code and modern technologies.
+                            {hero.description || "Software Engineer building production-ready web applications, SaaS products, and scalable backend systems used by real users. Passionate about system design, performant architectures, and delivering real business impact."}
                         </p>
 
-                        {/* Actions */}
+                        {/* Clear CTA Distinction: Primary Action vs Quieter Secondary */}
                         <div className={styles.actions}>
                             <Button href="#projects" variant="primary">
                                 <span>View My Work</span>
                                 <FiArrowRight size={16} />
                             </Button>
-                            <Button href={hero.resumeUrl} variant="outline" target="_blank" rel="noopener noreferrer" download>
+                            <a
+                                href={hero.resumeUrl}
+                                className={styles.resumeBtn}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                download
+                            >
                                 <span>Download Resume</span>
-                                <FiDownload size={15} className={styles.downloadArrow} />
-                            </Button>
-                        </div>
-
-                        {/* Social Row with Real React Icons */}
-                        <div className={styles.socials}>
-                            <a href="https://github.com/nazmul1211" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="GitHub">
-                                <SiGithub size={18} />
-                            </a>
-                            <a href="https://www.linkedin.com/in/nazmulsajjad/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="LinkedIn">
-                                <FaLinkedin size={18} color="#0a66c2" />
-                            </a>
-                            <a href="mailto:nazmulhasansajjad@gmail.com" className={styles.socialLink} aria-label="Email">
-                                <FiMail size={18} />
-                            </a>
-                            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter/X">
-                                <SiX size={16} />
+                                <FiDownload size={14} className={styles.downloadArrow} />
                             </a>
                         </div>
                     </div>
 
-                    {/* Right Column: Portrait Card + Code Snippet + Process Rail */}
+                    {/* Right Column: One Unified Visual Composition (Photo + Overlapping Code Window) */}
                     <div className={styles.visualContainer}>
                         <div className={styles.portraitComposition}>
-                            {/* Sticker 1: Turn Ideas into Products with curved arrow */}
-                            <div className={styles.stickerIdeasGroup}>
-                                <div className={styles.stickerIdeas}>
-                                    <span>Turn Ideas Into Products</span>
-                                </div>
-                                <svg className={styles.curvedArrow} width="36" height="36" viewBox="0 0 36 36" fill="none">
-                                    <path d="M6 6 C 18 10, 24 18, 28 26 M 22 25 L 29 27 L 29 20" stroke="#a78bfa" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </div>
+                            {/* Subtle ambient glow behind portrait */}
+                            <div className={styles.ambientGlow} aria-hidden="true" />
 
-                            {/* Main Portrait Card */}
+                            {/* Portrait Card (~5% more compact) */}
                             <div className={styles.portraitCard}>
-                                <Image
-                                    src="/nazmulHasan.jpg"
-                                    alt="Nazmul Hasan"
-                                    width={320}
-                                    height={320}
-                                    className={styles.portraitImg}
-                                    priority
-                                />
+                                <div className={styles.portraitImgWrapper}>
+                                    <Image
+                                        src="/nazmulHasan.jpg"
+                                        alt="Nazmul Hasan"
+                                        width={320}
+                                        height={320}
+                                        className={styles.portraitImg}
+                                        priority
+                                    />
+                                    <div className={styles.portraitOverlay} aria-hidden="true" />
+                                </div>
                             </div>
 
-                            {/* Floating Note: Clean Code, Better Products, Happier Users */}
-                            <div className={styles.cleanCodeNote}>
-                                <span>Clean Code</span>
-                                <span>Better Products</span>
-                                <span>Happier Users</span>
-                            </div>
-
-                            {/* Floating Terminal Code Card */}
+                            {/* Overlapping Engineering Easter Egg Code Window */}
                             <div className={styles.codeCard}>
                                 <div className={styles.codeCardHeader}>
                                     <div className={styles.codeDots}>
@@ -164,41 +124,26 @@ export default function Hero({ data }: { data?: HeroData }) {
                                 <div className={styles.codeCardBody}>
                                     <div><span className={styles.cKeyword}>const</span> <span className={styles.cVar}>nazmul</span> = &#123;</div>
                                     <div>&nbsp;&nbsp;<span className={styles.cProp}>role</span>: <span className={styles.cStr}>&quot;Software Engineer&quot;</span>,</div>
-                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>focus</span>: [<span className={styles.cStr}>&quot;Backend&quot;</span>, <span className={styles.cStr}>&quot;Full-Stack&quot;</span>, <span className={styles.cStr}>&quot;SaaS&quot;</span>],</div>
-                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>location</span>: <span className={styles.cStr}>&quot;Bangladesh&quot;</span>,</div>
-                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>status</span>: <span className={styles.cStr}>&quot;Open to Opportunities&quot;</span>,</div>
-                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>goal</span>: <span className={styles.cStr}>&quot;Build meaningful products&quot;</span></div>
+                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>specializes</span>: [<span className={styles.cStr}>&quot;Backend&quot;</span>, <span className={styles.cStr}>&quot;Full-Stack&quot;</span>, <span className={styles.cStr}>&quot;SaaS&quot;</span>],</div>
+                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>builds</span>: <span className={styles.cStr}>&quot;Production-ready systems&quot;</span>,</div>
+                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>scale</span>: <span className={styles.cStr}>&quot;Real users, real products&quot;</span>,</div>
+                                    <div>&nbsp;&nbsp;<span className={styles.cProp}>status</span>: <span className={styles.cStr}>&quot;Open to Opportunities&quot;</span></div>
                                     <div>&#125;;</div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Vertical Process Rail with React Icons */}
-                        <div className={styles.processRail}>
-                            {processSteps.map((step, idx) => {
-                                const StepIcon = step.icon;
-                                return (
-                                    <div key={idx} className={styles.processItem}>
-                                        <span className={styles.processIconBox} style={{ color: step.color }}>
-                                            <StepIcon size={17} />
-                                        </span>
-                                        <span className={styles.processLabel}>{step.label}</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
                     </div>
                 </div>
 
-                {/* Horizontal Metrics Bar with Real React Icons */}
+                {/* Evidence Metrics Bar with Subtle Hierarchy */}
                 <div className={styles.statsBar}>
                     <div className={styles.statItem}>
                         <div className={`${styles.statIconBox} ${styles.statBoxPurple}`}>
-                            <LuBox size={22} />
+                            <LuBox size={20} />
                         </div>
                         <div className={styles.statText}>
                             <span className={styles.statNumber}>10+</span>
-                            <span className={styles.statLabel}>Projects Built</span>
+                            <span className={styles.statLabel}>Projects Shipped</span>
                         </div>
                     </div>
 
@@ -206,11 +151,11 @@ export default function Hero({ data }: { data?: HeroData }) {
 
                     <div className={styles.statItem}>
                         <div className={`${styles.statIconBox} ${styles.statBoxBlue}`}>
-                            <LuUsers size={22} />
+                            <LuUsers size={20} />
                         </div>
                         <div className={styles.statText}>
-                            <span className={styles.statNumber}>30K+</span>
-                            <span className={styles.statLabel}>Monthly Visitors</span>
+                            <span className={`${styles.statNumber} ${styles.statNumberScale}`}>30K+</span>
+                            <span className={styles.statLabel}>Monthly Users</span>
                         </div>
                     </div>
 
@@ -218,10 +163,10 @@ export default function Hero({ data }: { data?: HeroData }) {
 
                     <div className={styles.statItem}>
                         <div className={`${styles.statIconBox} ${styles.statBoxCyan}`}>
-                            <LuChartBar size={22} />
+                            <LuChartBar size={20} />
                         </div>
                         <div className={styles.statText}>
-                            <span className={styles.statNumber}>100K+</span>
+                            <span className={`${styles.statNumber} ${styles.statNumberScale}`}>100K+</span>
                             <span className={styles.statLabel}>Monthly Pageviews</span>
                         </div>
                     </div>
@@ -230,32 +175,43 @@ export default function Hero({ data }: { data?: HeroData }) {
 
                     <div className={styles.statItem}>
                         <div className={`${styles.statIconBox} ${styles.statBoxIndigo}`}>
-                            <LuZap size={22} />
+                            <LuZap size={20} />
                         </div>
                         <div className={styles.statText}>
                             <span className={styles.statNumber}>60%</span>
-                            <span className={styles.statLabel}>Cost Reduction</span>
+                            <span className={styles.statLabel}>Cost Reduced</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Trusted Technologies Strip with Real React Icons */}
+                {/* Curated 8-Technology Strip + More Badge */}
                 <div className={styles.trustedStrip}>
                     <span className={styles.trustedLabel}>TRUSTED TECHNOLOGIES</span>
                     <div className={styles.trustedDivider} />
                     <div className={styles.trustedLogos}>
-                        {trustedTechnologies.map((tech, i) => {
+                        {coreTechnologies.map((tech, i) => {
                             const TechIcon = tech.icon;
                             return (
                                 <span key={i} className={styles.trustedTechBadge}>
                                     <span className={styles.trustedTechIcon} style={{ color: tech.color }}>
-                                        <TechIcon size={16} />
+                                        <TechIcon size={15} />
                                     </span>
                                     <span className={styles.trustedTechName}>{tech.name}</span>
                                 </span>
                             );
                         })}
+                        <a href="#skills" className={styles.moreTechBadge} title="Explore all technologies & skills">
+                            + more
+                        </a>
                     </div>
+                </div>
+
+                {/* Understated Scroll to Explore Cue */}
+                <div className={styles.scrollCueContainer}>
+                    <a href="#projects" className={styles.scrollCue} aria-label="Scroll to explore projects">
+                        <span>Scroll to explore</span>
+                        <FiChevronDown size={14} className={styles.scrollArrow} />
+                    </a>
                 </div>
             </div>
         </section>

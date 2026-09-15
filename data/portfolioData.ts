@@ -99,7 +99,7 @@ export const defaultPortfolioData: PortfolioData = {
     name: 'Nazmul Hasan',
     roles: ['Software Engineer', 'Full-Stack Developer'],
     description:
-      'Computer Science graduate building production-ready web applications, SaaS products, and backend systems with real users. Passionate about solving real problems with clean code and modern technologies.',
+      'Software Engineer building production-ready web applications, SaaS products, and scalable backend systems used by real users. Passionate about system design, performant architectures, and delivering real business impact.',
     resumeUrl: '/Nazmul_Hasan_FullStack_Developer_Resume.pdf',
     github: 'https://github.com/nazmul1211',
     linkedin: 'https://www.linkedin.com/in/nazmulsajjad/',

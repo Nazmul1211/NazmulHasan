@@ -30,16 +30,17 @@ export default function ParticleBackground() {
 
         const createParticles = () => {
             particles = [];
-            const numParticles = Math.floor((canvas.width * canvas.height) / 15000);
+            // Reduced particle density for quieter, non-distracting background
+            const numParticles = Math.floor((canvas.width * canvas.height) / 22000);
 
             for (let i = 0; i < numParticles; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    radius: Math.random() * 2 + 1,
-                    opacity: Math.random() * 0.5 + 0.2
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 1.5 + 0.8,
+                    opacity: Math.random() * 0.18 + 0.06
                 });
             }
         };
@@ -64,18 +65,18 @@ export default function ParticleBackground() {
                 ctx.fillStyle = `rgba(99, 102, 241, ${particle.opacity})`;
                 ctx.fill();
 
-                // Draw connections
+                // Draw connections with subtle, quiet stroke
                 particles.forEach((p2, j) => {
                     if (i === j) return;
                     const dx = particle.x - p2.x;
                     const dy = particle.y - p2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (dist < 120) {
+                    if (dist < 110) {
                         ctx.beginPath();
                         ctx.moveTo(particle.x, particle.y);
                         ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.1 * (1 - dist / 120)})`;
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.04 * (1 - dist / 110)})`;
                         ctx.stroke();
                     }
                 });
