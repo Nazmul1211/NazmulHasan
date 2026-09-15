@@ -28,9 +28,12 @@ export default async function Blog() {
             </div>
 
             <div className={styles.grid}>
-                {recentPosts.map((post) => (
-                    <article key={post.slug} className={styles.card}>
+                {recentPosts.map((post, idx) => (
+                    <article key={post.slug} className={`${styles.card} ${idx === 0 ? styles.featuredCard : ''}`}>
                         <div className={styles.meta}>
+                            {idx === 0 && (
+                                <span className={styles.featuredTag}>Featured</span>
+                            )}
                             <span className={styles.date}>{post.date}</span>
                             <span className={styles.dot}>•</span>
                             <span className={styles.readTime}>{post.readTime}</span>

@@ -11,6 +11,7 @@ import {
     SiPrisma,
     SiMongodb,
     SiDocker,
+    SiRedis,
 } from 'react-icons/si';
 import {
     LuBox,
@@ -20,7 +21,7 @@ import {
 } from 'react-icons/lu';
 import { FiMapPin, FiArrowRight, FiDownload, FiChevronDown } from 'react-icons/fi';
 
-// Curated 8 core technologies — focused and professional without overflowing
+// Curated core technologies — balanced width with clean presentation
 const coreTechnologies = [
     { name: 'Next.js', icon: SiNextdotjs, color: 'currentColor' },
     { name: 'React', icon: SiReact, color: '#61DAFB' },
@@ -30,6 +31,7 @@ const coreTechnologies = [
     { name: 'Prisma', icon: SiPrisma, color: 'currentColor' },
     { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
     { name: 'Docker', icon: SiDocker, color: '#2496ED' },
+    { name: 'Redis', icon: SiRedis, color: '#DC382D' },
 ];
 
 export default function Hero({ data }: { data?: HeroData }) {
@@ -184,9 +186,9 @@ export default function Hero({ data }: { data?: HeroData }) {
                     </div>
                 </div>
 
-                {/* Curated 8-Technology Strip + More Badge */}
+                {/* Curated Tech Stack Strip + More Badge */}
                 <div className={styles.trustedStrip}>
-                    <span className={styles.trustedLabel}>TRUSTED TECHNOLOGIES</span>
+                    <span className={styles.trustedLabel}>TECH STACK</span>
                     <div className={styles.trustedDivider} />
                     <div className={styles.trustedLogos}>
                         {coreTechnologies.map((tech, i) => {

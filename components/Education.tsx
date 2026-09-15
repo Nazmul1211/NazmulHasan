@@ -1,15 +1,18 @@
 import styles from './Education.module.css';
 import SectionWrapper from './SectionWrapper';
 import { defaultPortfolioData, EducationItem } from '@/data/portfolioData';
-import { LuGraduationCap, LuLayers } from 'react-icons/lu';
+import { LuGraduationCap, LuLayers, LuSparkles } from 'react-icons/lu';
 
-const cseCoursework = [
+const systemsCoursework = [
     'Data Structures & Algorithms',
-    'Database Systems',
-    'OOP',
     'Operating Systems',
     'Computer Networks',
-    'Software Engineering',
+];
+
+const engineeringCoursework = [
+    'Database Systems (RDBMS)',
+    'Object-Oriented Programming (OOP)',
+    'Software Architecture & SDLC',
 ];
 
 export default function Education({ data }: { data?: EducationItem[] }) {
@@ -21,10 +24,10 @@ export default function Education({ data }: { data?: EducationItem[] }) {
             id="education"
             kicker="Education"
             title="Academic Background"
-            subtitle="Formal education that built my foundation."
+            subtitle="Computer Science foundations underpinning real-world software engineering."
         >
             <div className={styles.splitGrid}>
-                {/* Left Card: Degree & University */}
+                {/* Left Card: Degree, Institution & Capstone Emphasis */}
                 <div className={styles.card}>
                     <div className={styles.cardHeader}>
                         <div className={styles.iconBox}>
@@ -37,26 +40,49 @@ export default function Education({ data }: { data?: EducationItem[] }) {
                         <h3 className={styles.degreeTitle}>{primaryEdu.degree}</h3>
                         <div className={styles.schoolName}>{primaryEdu.school}</div>
                         <div className={styles.details}>{primaryEdu.details}</div>
+
+                        <div className={styles.focusBlock}>
+                            <div className={styles.focusHeader}>
+                                <LuSparkles size={14} className={styles.focusIcon} />
+                                <span className={styles.focusLabel}>Core Engineering Focus</span>
+                            </div>
+                            <p className={styles.focusText}>
+                                Grounded in algorithm analysis, normalized relational database design, concurrency, and scalable software systems.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                {/* Right Card: Relevant Coursework */}
+                {/* Right Card: Structured Curriculum Categories */}
                 <div className={styles.card}>
                     <div className={styles.cardHeader}>
                         <div className={styles.iconBox}>
                             <LuLayers size={22} color="#8b5cf6" />
                         </div>
-                        <span className={styles.courseworkHeaderLabel}>Relevant Coursework</span>
+                        <span className={styles.courseworkHeaderLabel}>Curriculum Breakdown</span>
                     </div>
 
                     <div className={styles.cardBody}>
-                        <h3 className={styles.degreeTitle}>Core Knowledge</h3>
-                        <div className={styles.courseworkPills}>
-                            {cseCoursework.map((course, idx) => (
-                                <span key={idx} className={styles.coursePill}>
-                                    {course}
-                                </span>
-                            ))}
+                        <div className={styles.courseGroup}>
+                            <span className={styles.groupTitle}>Systems & Theory</span>
+                            <div className={styles.courseworkPills}>
+                                {systemsCoursework.map((course, idx) => (
+                                    <span key={idx} className={styles.coursePill}>
+                                        {course}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={styles.courseGroup}>
+                            <span className={styles.groupTitle}>Software & Architecture</span>
+                            <div className={styles.courseworkPills}>
+                                {engineeringCoursework.map((course, idx) => (
+                                    <span key={idx} className={styles.coursePill}>
+                                        {course}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

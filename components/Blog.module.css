@@ -52,6 +52,16 @@
   box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
 }
 
+.featuredCard {
+  border-color: rgba(99, 102, 241, 0.32);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, var(--glass-bg) 100%);
+}
+
+[data-theme="light"] .featuredCard {
+  border-color: rgba(99, 102, 241, 0.25);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.03) 0%, #ffffff 100%);
+}
+
 .meta {
   display: flex;
   align-items: center;
@@ -60,6 +70,26 @@
   font-family: var(--font-mono);
   font-size: 0.76rem;
   color: var(--foreground-dim);
+}
+
+.featuredTag {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  margin-right: 0.25rem;
+}
+
+[data-theme="light"] .featuredTag {
+  background: rgba(99, 102, 241, 0.1);
+  color: #4f46e5;
+  border-color: rgba(99, 102, 241, 0.25);
 }
 
 .dot {

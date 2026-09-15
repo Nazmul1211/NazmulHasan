@@ -108,9 +108,9 @@ export const defaultPortfolioData: PortfolioData = {
   // ─── ABOUT ───────────────────────────────────────────────
   about: {
     paragraphs: [
-      "I am a Computer Science graduate and Full-Stack Software Engineer with strong foundations in software architecture, database engineering, and modern web systems. Rather than staying confined to basic tutorial stacks, I learned by engineering, deploying, and operating real-world products from scratch.",
-      "Over the past several years, I have developed and maintained 10+ production applications serving 30,000+ monthly visitors and handling over 100,000+ monthly pageviews. My engineering toolkit spans TypeScript, Next.js, Node.js, relational databases (PostgreSQL, Prisma), distributed caching, and cloud infrastructure.",
-      "I bring rigorous CS fundamentals (algorithms, relational schema design, system architecture) coupled with proven end-to-end product delivery into a high-impact engineering team.",
+      "I am a Computer Science graduate and Full-Stack Software Engineer specializing in scalable architecture and database systems. Rather than basic tutorial stacks, I learned by engineering, deploying, and operating real-world products from scratch.",
+      "I have developed and maintained 10+ production applications serving 30,000+ monthly visitors and handling 100,000+ monthly pageviews. My stack spans TypeScript, Next.js, Node.js, relational databases (PostgreSQL, Prisma), and cloud infrastructure.",
+      "I bring rigorous CS fundamentals—algorithms, schema design, and system architecture—coupled with proven end-to-end product execution into high-impact teams.",
     ],
     stats: [
       { value: '10+', label: 'Projects Built' },
